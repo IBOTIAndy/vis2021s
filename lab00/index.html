@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
+
+    h1 {
+      background-color: rgba(255, 255, 0, 0.1);
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24pt;
+      border: solid 1px black;
+      width: 90%;
+      margin: 5px auto;
+      padding: 10px;
+    }
+
+		div {
+			font-family: 'Noto Serif JP', serif;
+			font-size: 12pt;
+			border: solid 1px black;
+			width: 90%;
+			margin: 5px auto;
+			padding: 10px;
+		}
+
+    div:hover, ul:hover, h1:hover, h3:hover {
+      background-color: rgba(255, 255, 128, 0.1);
+      /* offset-x | offset-y | blur-radius | spread-radius | color */
+      box-shadow: 0px 0px 5px 5px rgba(128, 255, 255, 0.5);
+    }
+
+    svg, iframe {
+      border: 1px solid red;
+    }
+	</style>
+</head>
+<body>
+
+<h1>  Lab 00 github / python 指令 http.server / localhost </h1>
+
+<div>
+  [圖檔] <a href="https://github.com/君の名は/vis2021s/lab00/1.svg">https://github.com/君の名は/vis2021s/lab00/1.svg</a>
+  <hr>
+  [檔案] <a href="https://github.com/君の名は/vis2021s/">https://github.com/君の名は/vis2021s/</a>
+  <hr>
+  [網頁] <a href="https://君の名は.github.io/vis2021s/">https://君の名は.github.io/vis2021s/</a>
+</div>
+
+<div>
+  <iframe src="./1.svg" width="512" height="512" seamless="seamless" scrolling="no" frameborder="0" allowtransparency="true"> </iframe>
+</div>
+
+<div>
+  網頁伺服器 (指定 port 8888)<br>
+  <textarea rows="6" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+  pytyhon -m http.server 8888&.
+
+  http://localhost:8888/index.html
+  </textarea>
+  <hr>
+  網頁伺服器 (不指定 port number)<br>
+  <textarea rows="6" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+  pytyhon -m http.server
+
+  http://localhost:8000/index.html
+  </textarea>
+</div>
+
+<div>
+  D3 template <br>
+  <textarea rows="16" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Page Template</title>
+    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // Your beautiful D3 code will go here
+    </script>
+  </body>
+</html>
+  </textarea>
+</div>
+
+
+</body>
+</html>
