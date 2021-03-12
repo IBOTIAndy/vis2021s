@@ -1,14 +1,125 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>D3 Page Template</title>
+    <title>Lab 01</title>
     <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <style type="text/css">
+	    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
+
+	    body {
+	        font-family: 'Noto Serif JP', serif;
+	        font-size: 16pt;
+	    }
+	    div, ul {
+	      border: solid black 1px;
+	      margin: 5px;
+	      padding: 10px;
+	      background-color: rgba(255, 255, 128, 0.1);
+	    }
+
+	    div:hover, ul:hover {
+	      background-color: rgba(255, 128, 128, 0.1);
+	    }
+    </style>
 </head>
 <body>
-    <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
-  </body>
+	<div>
+		Lab 01
+	</div>
+	<div>
+		凱蒂貓軌道車、老鼠軌道車、電仔
+	</div>
+	<div>
+		上台報告: 2021.03.18 (四)
+	</div>
+	<ul>
+		<li>下載 SVG 圖檔後，分別命名為 <font color="red">hellokitty.svg</font>、<font color="red">mickey.svg</font> 與 <font color="red">electro.svg</font>，然後放到 lab01 檔案夾。</li>
+		<li>https://github.com/君の名は/vis2021s/lab01/hellokitty.svg (限用單一路徑 path，限用 path 中的 M/m 指令、 A/a 指令。)</li>
+		<li>https://github.com/君の名は/vis2021s/lab01/mickey.svg (限用單一路徑 path，限用 path 中的 M/m 指令、 A/a 指令。)</li>
+		<li>https://github.com/君の名は/vis2021s/lab01/electro.svg (所有 SVG tag 都可使用)</li>
+	</ul>
+	<div>
+    	<iframe src="./hellokitty.svg" width="512" height="512" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+    	<iframe src="./mickeymouse.svg" width="512" height="512" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+	<div>
+    	<iframe src="./electro.svg" width="512" height="512" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+    	<iframe src="./mickey.svg" width="512" height="512" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+	<!-- ---------------- -->
+	<div>
+		<table style="width:100%">
+		  <tr>
+		    <td><a target="_blank" href="https://jakearchibald.github.io/svgomg/">SVGOMG - SVGO's Missing GUI</a></td>
+		    <td><a target="_blank" href="https://www.base64-image.de/">Base64 Image Encoder</a></td>
+		    <td><a target="_blank" href="https://onlinejpgtools.com/convert-jpg-to-data-uri">Convert JPG to Data URI</a></td>
+		    <td><a href="https://www.oxxostudio.tw/articles/201410/svg-tutorial.html">SVG 完整教學31 天- OXXO.STUDIO</a></td>
+		  </tr>
+		</table>
+	</div>
+	<!-- ---------------- -->
+	<div>
+		<table style="width:100%">
+		  <tr>
+		    <td>rx： </td><td>橢圓的 x 軸半徑 ( 根據不同的終點換算成比例 ) </td>
+		  </tr>
+		  <tr>
+		    <td>ry： </td><td>橢圓的 y 軸半徑 ( 根據不同的終點換算成比例 ) </td>
+		  </tr>
+		  <tr>
+		    <td>x-axis-rotation： </td><td>弧線與 x 軸的夾角 </td>
+		  </tr>
+		  <tr>
+		    <td>large-arc-flag： </td><td>1 為大角度弧線，0 為小角度弧線 ( 必須有三個點 ) </td>
+		  </tr>
+		  <tr>
+		    <td>sweep-flag： </td><td>1 為順時針方向，0 為逆時針方向 </td>
+		  </tr>
+		  <tr>
+		    <td>x：  </td><td>終點 x 座標 </td>
+		  </tr>
+		  <tr>
+		    <td>y：  </td><td>終點 y 座標 </td>
+		  </tr>
+		</table>
+	</div>
+
+	<div>
+	    <iframe src="./hellokitty.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<div>
+	    <iframe src="./mickeymouse.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<div>
+	    <iframe src="./electro.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+	<div>
+	    <iframe src="./largearcsweep1.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<div>
+	    <iframe src="./largearcsweep2.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<div>
+	    <iframe src="./largearcsweep3.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<div>
+	    <iframe src="./largearcsweep4.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<div>
+	    <iframe src="./angle.html" width="100%" height="700" seamless="seamless" scrolling="yes" frameborder="0" allowtransparency="true"> </iframe>
+	</div>
+
+	<script type="text/javascript">
+	  // Your beautiful D3 code will go here
+	</script>
+
+ </body>
 </html>
   

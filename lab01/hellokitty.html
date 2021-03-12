@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>SVG</title>
+  <style type="text/css">
+    svg {
+      border: solid rgba(128, 255, 255, 0.95) 0.1px;
+      margin: 5px;
+    }
+
+    div {
+      border: solid black 1px;
+      margin: 5px;
+      padding: 10px;
+      background-color: rgba(255, 255, 128, 0.1);
+    }
+
+    div:hover {
+      background-color: rgba(255, 128, 128, 0.1);
+    }
+
+    #BlueFolder {
+        width: 15%;
+        vertical-align: middle;
+    }
+
+    #drop_zone {
+      border: 2px dashed #bbb;
+      border-radius: 25px;
+      background-color: rgba(128, 255, 128, 0.1);
+    }
+  </style>
+
+  <script type="text/javascript">
+    var svgAI;
+
+    function saveText(text, filename) {
+      var a = document.createElement('a');
+      a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(text));
+      a.setAttribute('download', filename);
+      a.click()
+    }
+
+    function readFiles(files){
+        var output = [];
+        var newImage;
+
+        for (var i = 0, f; f = files[i]; i++) {
+            output = [];
+            //alert(f.name)
+            //ext = f.name.substring(f.name.lastIndexOf(".") + 1);
+            //console.log('ext = ' + ext);
+
+            output.push('<li><strong>', 
+                        escape(f.name), 
+                        '</strong>', 
+                        f.type || 'n/a',
+                        f.size, 
+                        ' bytes, last modified: ',
+                        f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                        '</li>');
+            //alert(output)
+
+            let reader = new FileReader();
+
+            // https://www.html5rocks.com/en/tutorials/file/dndfiles//
+            // Only process image files.
+            // f.mimetype.match('text.*|image.*|application.*')
+            if (!f.type.match('image.svg')) {
+              //alert('Not an SVG!')  
+              //continue; // skip rest of the codes
+
+              // Closure to capture the file information.
+              reader.onload = (function(theFile) {
+                return function(e) {
+                  //console.log( e.target.result );
+                  newImage = e.target.result;
+                };
+              })(f);
+
+              // Read in the image file as a data URL.
+              reader.readAsDataURL(f);
+            } 
+            else {
+              // alert('It is an SVG!')
+              reader.readAsText(files[0], 'UTF-8');
+
+              // Closure to capture the file information.
+              reader.onload = (function(theFile) {
+                return function(e) {
+                  //console.log( e.target.result );
+                  //alert(e.target.result)
+                  svgAI = e.target.result;
+
+                  document.getElementById('content0').textContent = svgAI;
+                  document.getElementById('svgimage').innerHTML = svgAI;
+                };
+              })(f);
+            }
+        }
+
+        // do it when you are not an SVG
+        if (!files[0].type.match('image.svg')) {
+          var reader = new FileReader();
+          reader.readAsText(files[0], 'UTF-8');
+          reader.onload = function(evt) 
+          {
+              document.getElementById('content0').textContent = svgAI;
+              var str = document.getElementById('content0').value;
+              //alert(str);
+
+              var n1 = str.search("https");
+              //var n2 = str.search(/.png/i);
+              var n2 = str.search(".png");
+              console.log('n1 = ' + n1);
+              console.log('n2 = ' + n2);
+
+              var sub = str.substring(n1, n2 + 4);
+              //console.log('sub = ' + sub);
+
+              if (n1 > -1) {
+                str = str.replace(sub, newImage);
+              }
+              else {
+                str = svgAI;
+                //alert(str);
+              }
+
+              document.getElementById('content0').textContent = str;
+              document.getElementById('svgimage').innerHTML = str;
+          }
+        }
+    }
+
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+        readFiles(files);
+    }
+
+    function handleFileSelect_drag(evt)
+    {
+        evt.stopPropagation();
+        evt.preventDefault();
+        var files = evt.dataTransfer.files; // FileList object.
+        readFiles(files);
+    }
+
+    function handleDragOver(evt)
+    {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        //console.log('...');    
+    }
+
+    function start(e)
+    {
+      //------------------------------------------------------------------------
+      // Setup the dnd listeners.
+      var dropZone = document.getElementById('drop_zone');
+      dropZone.addEventListener('dragover', handleDragOver, false);
+      dropZone.addEventListener('drop', handleFileSelect_drag, false);
+
+      setInterval(function(){ 
+        document.getElementById("drop_zone").style.borderColor = "red";
+      }, 500);
+
+      setInterval(function(){ 
+        document.getElementById("drop_zone").style.borderColor = "gray";
+      }, 1000);
+      //------------------------------------------------------------------------
+
+      // default
+      svgAI = document.getElementById('content0').value;
+      document.getElementById('svgimage').innerHTML = svgAI;
+      //document.getElementById('svgimage').innerHTML = document.getElementById('content0').value;
+
+      // listener
+      document.getElementById('content0').addEventListener("input", function(){
+          document.getElementById('svgimage').innerHTML = document.getElementById('content0').value;
+      });
+
+      //------------------------------------------------------------------------
+      // 選擇檔案 按鈕 Event Listener
+      document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+      //------------------------------------------------------------------------
+      // Save Event Listener
+      document.getElementById('save').addEventListener("click", function(){
+        var fn = document.getElementById('svgfilename').value;
+        saveText( document.getElementById('content0').value, fn);
+      });
+
+      //------------------------------------------------------------------------
+      // 輸入框框按下 'Enter' 鍵 Event Listener
+      // 在 input 輸入框框按下 'Enter' 鍵，也可以另存成 SVG
+      document.getElementById('svgfilename').addEventListener('keydown', function(event) {
+        if (preventKey(event, 'Enter', 13)) {
+          event.preventDefault();
+          var fn = document.getElementById('svgfilename').value;
+          saveText( document.getElementById('content0').value, fn);
+        }
+      });
+      //------------------------------------------------------------------------
+
+    }
+
+    window.addEventListener( "load", start, false );
+  </script>
+</head>
+
+
+<body>
+  <!-- ---------------- -->
+  <div>
+    <table border="1" width="100%">
+      <tbody>
+        <tr>
+          <td width="30%"> <span id="drop_zone" style="margin: 5px; padding: 10px; width: 85%; display: inline-block;"> Drop files here... </span> </td>
+          <td width="35%"> 開啟舊檔 (SVG): <input type="file" id="files" name="files[]" multiple accept=".svg" /> </td>
+          <td width="35%"> 另存新檔 (SVG): <input id="svgfilename" value="hellokitty.svg"></input> <button id="save">Save</button> </td>
+        </tr>
+        <tr><td> </td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- ---------------- -->
+
+
+
+  <div>
+    <span id="svgimage"></span>
+
+    <!-- -------------------------------------------------------------------------------- -->
+    <textarea id="content0" cols="120" rows="33">
+<?xml version="1.0" encoding="utf-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+  height="512" width="512" viewBox="0 0 512 512">
+
+  <image href="https://s0.gifyu.com/images/hello_kitty_Hello_Kitty_Head_ClipArt_in_PNG_File.png" height="512" width="512" />
+
+  <rect width="512" height="512" stroke="red" fill="rgba(255,255,255,0.95)" opacity="0.95" ></rect>
+
+  <text x="2" y="12" font-size="12" text-anchor="start" fill="red">0</text>
+  <path d="M256  64 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="68" font-size="12" text-anchor="start" fill="red">64</text>
+  <path d="M256 128 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="132" font-size="12" text-anchor="start" fill="red">128</text>
+  <path d="M256 192 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="196" font-size="12" text-anchor="start" fill="red">192</text>
+  <path d="M256 256 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="260" font-size="12" text-anchor="start" fill="red">256</text>
+  <path d="M256 320 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="324" font-size="12" text-anchor="start" fill="red">320</text>
+  <path d="M256 384 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="388" font-size="12" text-anchor="start" fill="red">384</text>
+  <path d="M256 448 H0 H512" stroke="lightgray" fill="white"></path>
+  <text x="2" y="452" font-size="12" text-anchor="start" fill="red">448</text>
+  <text x="2" y="510" font-size="12" text-anchor="start" fill="red">512</text>
+
+  <path d="M64  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="58" y="12" font-size="12" text-anchor="start" fill="red">64</text>
+  <path d="M128  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="118" y="12" font-size="12" text-anchor="start" fill="red">128</text>
+  <path d="M195  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="186" y="12" font-size="12" text-anchor="start" fill="red">192</text>
+  <path d="M256  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="246" y="12" font-size="12" text-anchor="start" fill="red">256</text>
+  <path d="M320  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="310" y="12" font-size="12" text-anchor="start" fill="red">320</text>
+  <path d="M384  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="374" y="12" font-size="12" text-anchor="start" fill="red">384</text>
+  <path d="M448  0 V512" stroke="lightgray" fill="white"></path>
+  <text x="438" y="12" font-size="12" text-anchor="start" fill="red">448</text>
+  <text x="492" y="12" font-size="12" text-anchor="start" fill="red">512</text>
+
+  <path d="M256 256 V270 V242 M256 256 H270 H242" stroke="black" fill="white"></path>
+
+  <text x="254" y="250" font-size="16" text-anchor="middle" fill="red">(256, 256)</text>
+
+  <ellipse fill="#77DD47" stroke="#246614" stroke-width="5" cx="256" cy="270" rx="200" ry="150" opacity="0.2"/>
+
+  <path d="M456 256 A200 140, 0, 0, 0, 56 256" stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/>
+
+  <circle id="c1" cx="456" cy="256" r="1" stroke="red" fill="none">
+    <animate attributeName="r" to="10" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <circle id="c2" cx="56" cy="256" r="1" stroke="red" fill="none">
+    <animate attributeName="r" to="10" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <circle cx="0" cy="0" r="1" stroke="blue" fill="none">
+    <animateMotion dur="6s" path="M456 256 A200 140, 0, 0, 0, 56 256" repeatCount="indefinite" rotate="auto"/>
+    <animate attributeName="r" to="15" dur="6s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+    </textarea>
+    <!-- -------------------------------------------------------------------------------- -->
+
+
+  </div>
+
+
+</body>
+
+</html>
