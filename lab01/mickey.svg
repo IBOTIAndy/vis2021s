@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg35"
+   version="1.1"
+   viewBox="0 0 512 512"
+   height="512"
+   width="512">
+
+  <rect
+     id="rect2"
+     style="fill:url(#enji2); stroke-width:1px; stroke:rgb(159, 53, 58)"
+     height="512"
+     width="512" />
+  <defs
+     id="defs21">
+    <path
+       d="M 142.85711,191.86612 C 46.693984,214.39723 6.2849669,110.14395 63.837897,55.62952 110.4634,11.465607 221.04225,44.590977 189.28568,148.29469 234.99997,120.19945 293.5714,123.53278 330.71426,147.5804 300.16688,74.806944 386.14652,0.34654803 457.85712,56.151834 525.31765,125.0563 454.63199,221.38506 376.42854,191.86612 445.24299,294.61699 355.15637,414.83495 252.49997,405.08041 125.28328,392.89053 95.89096,265.69586 142.85711,191.86612 Z"
+       id="path2"
+       transform="scale(1.0)" />
+    <radialGradient
+       cy="50%"
+       cx="50%"
+       id="enji2">
+      <stop
+         id="stop5"
+         stop-opacity="1"
+         stop-color="#9f353a"
+         offset="0%" />
+      <stop
+         id="stop7"
+         stop-opacity="1"
+         stop-color="#d98c90"
+         offset="90%" />
+      <stop
+         id="stop9"
+         stop-opacity="1"
+         stop-color="#f9eced"
+         offset="100%" />
+    </radialGradient>
+    <filter
+       height="200%"
+       width="200%"
+       y="0"
+       x="0"
+       id="f4">
+      <feOffset
+         id="feOffset12"
+         dy="10"
+         dx="10"
+         in="SourceGraphic"
+         result="offOut" />
+      <feColorMatrix
+         id="feColorMatrix14"
+         values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"
+         type="matrix"
+         in="offOut"
+         result="matrixOut" />
+      <feGaussianBlur
+         id="feGaussianBlur16"
+         stdDeviation="10"
+         in="matrixOut"
+         result="blurOut" />
+      <feBlend
+         id="feBlend18"
+         mode="normal"
+         in2="blurOut"
+         in="SourceGraphic" />
+    </filter>
+  </defs>
+
+  <use
+     id="use23"
+     xlink:href="#path2"
+     filter="url(#f4)"
+     style="fill:rgb(159, 53, 58)"
+     transform="translate(0,0)"
+     height="100%"
+     width="100%"
+     y="0"
+     x="0" />
+
+  <use
+     id="use25"
+     xlink:href="#path2"
+     style="fill:none; stroke:#ff0000; stroke=blue; stroke-width:1px; stroke-linecap:butt; stroke-linejoin:miter; stroke-opacity:1;"
+     transform="translate(0,0)"
+     height="100%"
+     width="100%"
+     y="0"
+     x="0" />
+
+  <text id="text31" style="font-size:16px; writing-mode:tb; fill:none; stroke:#ecc6c8;"
+     transform="translate(0,0)">
+    <textPath id="textPath29" xlink:href="#path2">
+		♪釵留一股合一扇♪釵擘黃金合分鈿♪但教心似金鈿堅♪天上人間會相見♪臨別殷勤重寄詞♪詞中有誓兩心知♪七月七日長生殿♪夜半無人私語時♪在天願作比翼鳥♪在地願為連理枝♪天長地久有時盡♪此恨綿綿無絕期♪
+		</textPath>
+  </text>
+
+  <text id="text33" style="font-size:16px; writing-mode:tb; fill:none; stroke:#f9eced;"
+     y="10" x="0">
+				♪資料可視化♪
+			  <animateMotion rotate="auto" repeatCount="indefinite" dur="10s">
+          <mpath xlink:href="#path2" />
+        </animateMotion>
+  </text>
+
+  <rect
+     id="rect27"
+     fill="rgb(159, 53, 58)"
+     opacity="0.5"
+     y="0"
+     x="0"
+     height="20"
+     width="20"
+     stroke="#f9eced"
+     stroke-width="2"
+     transform="translate(0, -10)">
+    <animateMotion
+       rotate="auto"
+       repeatCount="indefinite"
+       dur="10s">
+      <mpath
+         xlink:href="#path2" />
+    </animateMotion>
+  </rect>
+</svg>
