@@ -45,6 +45,31 @@
 
   <path d="M256 256 V270 V242 M256 256 H270 H242" stroke="black" fill="white"></path>
   <text x="254" y="250" font-size="16" text-anchor="middle" fill="red">(256, 256)</text>
-</svg>
 
+<defs> <!--定義mickey mouse的邊框路徑-->
+    <path id="mickey"
+        d="M410 320 A200 200, 000 0 0 ,384 220
+                    ,92 92, 000 1 0 ,333 171
+                    ,100 050, 000 0 0 ,176 171
+                    ,92 92, 000 1 0 ,128 220
+                    ,255 255, 000 0 0 ,100 320
+                    ,74 70, 000 1 0 ,410 320z"/>
+</defs>
+  <!--使用mickey的path路徑畫出mickey邊框-->
+  <use xlink:href="#mickey" stroke-width="10" stroke="#FF0" fill="none" opacity="0.6"/>
+
+  <!--繞行文字-->
+  <text y="-120" fill="darkblue" style="font-size:40px; writing-mode:tb;">版權老鼠警告
+    <animateMotion dur="12s" repeatCount="indefinite" rotate="auto">
+      <mpath xlink:href="#mickey"/> <!--帶入mickey的path路徑-->
+    </animateMotion>
+    <animate attributeName="r" to="12" dur="3s" repeatCount="indefinite"/>
+  </text>
+
+  <!--起始的紅色圓圈-->
+  <circle id="c1" cx="410" cy="320" r="1" stroke="red" fill="none">
+    <animate attributeName="r" to="12" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+</svg>
     
