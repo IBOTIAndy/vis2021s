@@ -5,9 +5,6 @@
 
   <image href="https://s0.gifyu.com/images/hello_kitty_Hello_Kitty_Head_ClipArt_in_PNG_File.png" height="512" width="512" />
 
-
-  <circle cx="128" cy="128" r="10" stroke="red" fill="none"  />
-
   <rect width="512" height="512" stroke="red" fill="rgba(255,255,255,0.95)" opacity="0.95" ></rect>
 
   <text x="2" y="12" font-size="12" text-anchor="start" fill="red">0</text>
@@ -44,8 +41,47 @@
   <text x="492" y="12" font-size="12" text-anchor="start" fill="red">512</text>
 
   <path d="M256 256 V270 V242 M256 256 H270 H242" stroke="black" fill="white"></path>
-  
-  <text x="254" y="250" font-size="16" text-anchor="middle" fill="red">(256, 256)</text>
-</svg>
 
+  <text x="254" y="250" font-size="16" text-anchor="middle" fill="red">(256, 256)</text>
+<!--
+  <ellipse fill="#77DD47" stroke="#246614" stroke-width="5" cx="256" cy="270" rx="200" ry="150" opacity="0.2"/>
+-->
+
+<defs> <!--定義hello kitty的邊框路徑-->
+    <path id="kitty"
+        d="M448 256 A200 200, 000 0 0 ,440 230
+                    ,034 070, 035 0 0 ,436 154
+                    ,096 350, 030 0 0 ,347 117
+                    ,096 350, 000 0 0 ,270 120
+                    ,250 200, 000 0 0 ,180 128
+                    ,099 350, 143 0 0 ,085 195
+                    ,230 200, 000 0 0 ,060 288
+                    ,050 004, 000 0 0 ,016 292
+                    ,050 004, 000 0 1 ,060 288
+                    ,200 130, 000 0 0 ,300 420
+                    ,180 140, 006 0 0 ,448 256z"/>
+</defs>
+  <!--使用kitty的path路徑畫出kitty邊框-->
+  <use xlink:href="#kitty" stroke-width="5" stroke="#F00" fill="none" opacity="0.3"/>
+
+  <!--起始的紅色圓圈-->
+  <circle id="c1" cx="448" cy="256" r="1" stroke="red" fill="none">
+    <animate attributeName="r" to="12" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!--藍色圓圈依據kitty的path路徑移動-->
+  <circle id="run_kitty" cx="0" cy="0" r="5" stroke="blue" fill="none">
+    <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+      <mpath xlink:href="#kitty"/> <!--帶入kitty的path路徑-->
+    </animateMotion>
+    <animate attributeName="r" to="15" dur="6s" repeatCount="indefinite"/>
+  </circle>
+
+<!--
+  <circle id="run" cx="0" cy="0" r="1" stroke="blue" fill="none">
+    <animateMotion dur="6s" path="M456 256 A200 140, 0, 0, 0, 56 256" repeatCount="indefinite" rotate="auto"/>
+    <animate attributeName="r" to="15" dur="6s" repeatCount="indefinite"/>
+  </circle>
+-->
+</svg>
     
