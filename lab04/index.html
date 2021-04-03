@@ -1,14 +1,129 @@
+<!--
+http://bl.ocks.org/ndarville/7075823
+https://www.oxxostudio.tw/articles/201501/svg-d3-13-csv.html
+-->
+
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
-  <head>
-    <meta charset="utf-8">
-    <title>D3 Page Template</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
-</head>
-<body>
-    <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
-  </body>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
+
+            h1 {
+              background-color: rgba(255, 255, 0, 0.1);
+              font-family: 'Noto Serif JP', serif;
+              font-size: 24pt;
+              border: solid 1px black;
+              width: 90%;
+              margin: 5px auto;
+              padding: 10px;
+            }
+
+            body {
+                background-color: rgba(255, 128, 255, 0.1);
+            }
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 24px sans-serif;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            td, th {
+                border: 1px black solid;
+                padding: 5px;
+                background-color: rgba(128, 255, 255, 0.1);
+            }
+
+            td img{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            img:hover {
+                box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            lab04 製作 CSV 表格，table data cell 內放置 img
+        </h1>
+        <div>
+            <ul>
+                <li><a href="http://bl.ocks.org/ndarville/7075823">From CSV to HTML table (Simple)</a></li>
+                <li><a href="https://www.oxxostudio.tw/articles/201501/svg-d3-13-csv.html">SVG D3.js - CSV 數據處理</a></li>
+            </ul>
+        </div>
+        <img src="./c.png" width="650">
+        <div id="div1"></div>
+        <script src="./d3.v3.min.js"></script> 
+
+        <script type="text/javascript"charset="utf-8">
+
+            d3.select("#div1")  //往上找到id = div1的地方 (#xxx = id=xxx)
+                .selectAll("img")
+                .data([0, 1, 2, 3])
+                .enter()
+                // img
+                .append("img")
+                .attr("src", function(d, i) { if (i % 2 == 0) return "./92.png"; else return "./93.png"; })
+                .attr("x", "0")
+                .attr("y", "0")
+                .attr("width",  function(d, i) { return (i + 1) * 60; })
+                .attr("height", function(d, i) { return (i + 1) * 60; });
+
+            d3.text("data.csv", function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+                var container = d3.select("body")
+                    .append("table")
+
+                    .selectAll("tr")
+                        .data(parsedCSV).enter()
+                        .append("tr")
+
+                    .selectAll("td")
+                        .data(function(d) { return d; }).enter()
+                        .append("td")
+                        .text(function(d, i) { 
+                            console.log('d = ' + d + ' i = ' + i);
+                            if(i >= 4 && (d == 0 || d == 1)){
+                                return "";
+                            }
+                            else{
+                                return d;
+                            }
+                        })
+                        .append("img")
+                        .attr("src", function(d, i) {
+                            if(i >= 4){
+                                if(d == 1){
+                                    return "./92.png";
+                                }
+                                else if(d == 0){
+                                    return "./93.png";
+                                }
+                            }
+                        })
+                        .attr("width",  function(d, i) { 
+                            if(i >= 4){
+                                if(d == 1 || d == 0){
+                                    return 50;
+                                }
+                            }
+                        })
+                        .attr("height", function(d, i) { 
+                            if(i >= 4){
+                                if(d == 1 || d == 0){
+                                    return 50;
+                                }
+                            }
+                        });
+            });
+        </script>
+    </body>
 </html>
-  
