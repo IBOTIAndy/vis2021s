@@ -112,14 +112,22 @@
                     if (treemapContainer.innerHTML.length) {
                         treemapContainer.innerHTML = ''
                     }
-
-
+					
                     dataClassifier(objectKeys.value, function(data, layers){
                         node = getNode(data, layers, treemapContainer)
                         treemapContainer.appendChild(node)
-                    })
+                    })                    
 				})
 
+//					/*
+                dataLoader("kinmen_nosmork_park.csv", function(){
+					dataClassifier(objectKeys.value, function(data, layers){
+						node = getNode(data, layers, treemapContainer)
+						treemapContainer.append(node)
+					})
+				})
+//					*/
+				/*
 				document.getElementById('dropfile').addEventListener('dragover',function(evt){
 					evt.preventDefault()
 				})
@@ -155,6 +163,7 @@
 						fr.readAsText(csvFile)
 					}
 				})
+				*/
 			})
 		</script>
 
