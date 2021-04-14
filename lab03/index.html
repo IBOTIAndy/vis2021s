@@ -1,14 +1,330 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>D3 Page Template</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <title>lab03</title>
+
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <!--
+    <script src="./d3.js" charset="utf-8"></script>
+	-->
+	<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
+
+    h1 {
+      background-color: rgba(255, 255, 0, 0.1);
+      font-family: 'Noto Serif JP', serif;
+      font-size: 24pt;
+      border: solid 1px black;
+      width: 90%;
+      margin: 5px auto;
+      padding: 10px;
+    }
+
+	div {
+		font-family: 'Noto Serif JP', serif;
+		font-size: 12pt;
+		border: solid 1px black;
+		width: 90%;
+		margin: 5px auto;
+		padding: 10px;
+	}
+
+    div:hover, ul:hover, h1:hover, h3:hover {
+      background-color: rgba(255, 255, 128, 0.1);
+      /* offset-x | offset-y | blur-radius | spread-radius | color */
+      box-shadow: 0px 0px 5px 5px rgba(128, 255, 255, 0.5);
+    }
+
+    svg, iframe {
+      border: 1px solid red;
+    }
+
+
+    td, th {
+        border: 1px solid #333;
+        padding: 5px 10px;
+    }
+
+    thead,
+    tfoot {
+        background-color: #888;
+        color: #fff;
+    }
+
+      div {
+        margin-bottom: 10px;
+      }
+
+      .pan rect {
+        fill: black;
+        opacity: 0.2;
+      }
+
+      .pan text {
+        fill: black;
+        font-size: 18px;
+        text-anchor: middle;
+      }
+
+      .pan:hover rect,
+      .pan:hover text {
+        fill: blue;
+      }
+
+
+      .zoom rect {
+        fill: black;
+        opacity: 0.2;
+      }
+      
+      .zoom rect {
+        rx: 5;  /* Rounded corners */
+        ry: 5;
+      }
+
+      .zoom text {
+        fill: black;
+        font-size: 18px;
+        text-anchor: middle;
+      }
+
+      .zoom:hover rect,
+      .zoom:hover text {
+        fill: blue;
+      }
+
+      .label {
+        font-family: Helvetica, sans-serif;
+        font-size: 11px;
+        fill: black;
+        text-anchor: middle;
+      }
+
+	</style>
 </head>
 <body>
+	<div>
+    <table class="table table-striped">
+    <tbody>
+        <tr>
+            <td scope="row"><img src="https://learning.oreilly.com/library/cover/9781491921296/250w/" width="120"></td>
+            <td>
+              <a href="https://alignedleft.com/tutorials/d3/">D3 Tutorials</a>
+              <hr>
+              O'Reilly <a href="https://www.oreilly.com/library/view/interactive-data-visualization/9781491921296/">Interactive Data Visualization for the Web</a>, 2nd Edition <img src="https://cdn.oreillystatic.com/images/sitewide-headers/oreilly_logo_mark_red.svg" width="15%">
+              <hr>
+              程式碼下載: <a href="https://github.com/scotthmurray/d3-book/" target="_blank">github</a>。 <img src="https://github.githubassets.com/images/modules/site/home/space.svg" width="20%" > 
+            </td>
+        </tr>
+    </tbody>
+    </table>
+	</div>
+
+	<h1> lab03 Python Web Server 指令 http.server / localhost </h1>
+
+	<div>
+	  <a href="https://codertw.com/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/50603/">本地伺服器</a> localhot  (不經網絡卡傳輸，不受網路防火牆和網絡卡限制。)
+	  <br>
+	  <a href="https://codertw.com/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/50603/">本機伺服器</a> 127.0.0.1 (通過網絡卡傳輸，依賴網絡卡，受到網路防火牆和網絡卡限制。)
+	</div>
+
+	<div>
+	  <a href="https://shengyu7697.github.io/blog/2019/11/27/Python-simple-web-server/">Python 快速建立簡單網頁伺服器</a>
+	  <hr>
+	  使用 Python http.server 模組建立網頁伺服器 HTTP web sever。 用瀏覽器瀏覽<font color="red">目錄</font>裡的檔案！也可以顯示目錄中的<font color="red">靜態網頁</font>。
+	</div>
+
+	<div>
+	  localhost，別台電腦無法連進來。
+	  <hr>
+	  使用 Chrome 瀏覽器打開 
+	  <a href="http://localhost:8000/">http://localhost:8000/index.html</a> 網頁，或打開 
+	  <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/index.html</a> 網頁。<br>
+	  <textarea rows="6" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+	  pytyhon -m http.server
+
+	  http://localhost:8000/index.html
+	  http://127.0.0.1:8000/index.html
+	  </textarea>
+
+	  <hr>
+
+	  localhost (指定 port 8888)，別台電腦無法連進來。
+	  <hr>
+	  使用 Chrome 瀏覽器打開 
+	  <a href="http://localhost:8000/">http://localhost:8888/index.html</a> 網頁，或打開 
+	  <a href="http://127.0.0.1:8000/">http://127.0.0.1:8888/index.html</a> 網頁。<br> 
+	  <!-- page 65, pytyhon -m http.server 8888&. -->
+	  <textarea rows="6" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+	  pytyhon -m http.server 8888
+
+	  http://localhost:8888/index.html
+	  http://127.0.0.1:8888/index.html
+	  </textarea>
+	</div>
+
+	<div>
+	<table>
+	    <thead>
+	        <tr>
+	            <th colspan="4">Reserved Private IPv4 Network Ranges</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <th>Class</th>
+	            <th>Range</th>
+	            <th>Range</th>
+	            <th>Number of addresses</th>
+	        </tr>
+	        <tr>
+	            <td>A</td>
+	            <td>10.0.0.0</td>
+	            <td>10.255.255.255</td>
+	            <td>16,777,216</td>
+	        </tr>
+	         <tr>
+	            <td>B</td>
+	            <td>172.16.0.0</td>
+	            <td>172.31.255.255</td>
+	            <td>1,048,576</td>
+	        </tr>
+	        <tr>
+	            <td>C</td>
+	            <td>192.168.0.0</td>
+	            <td>192.168.255.255</td>
+	            <td>65,536</td>
+	        </tr>     
+	    </tbody>
+	</table>
+	</div>
+
+	<div>
+	  Private IPv4 Network，內網裝置可以透過這個 IP 連到本機的網頁伺服器。
+	  <hr>
+	  使用 Chrome 瀏覽器打開 
+	  <a href="http://localhost:8000/">http://localhost:8000/index.html</a> 網頁，或打開 
+	  <a href="http://127.0.0.1:8000/">http://192.168.0.2:8000/index.html</a> 網頁。<br>
+	  <textarea rows="6" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+	  ipconfig /all
+
+	  pytyhon -m http.server -b 192.168.0.2
+
+	  http://192.168.0.2:8000/index.html
+	  </textarea>
+	</div>
+
+
+	<div>
+	  --allow-file-access-from-files <br>
+	  --disable-web-security
+	  <hr>
+	  <textarea rows="6" cols="120" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files --disable-web-security
+
+	  </textarea>
+	</div>
+
+
+	<div>
+	  D3 template <br>
+	  <textarea rows="16" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+	<!DOCTYPE html>
+	<html lang="zh-Hant-TW">
+	  <head>
+	    <meta charset="utf-8">
+	    <title>D3 Page Template</title>
+	    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
+	  </head>
+	  <body>
+	    <script type="text/javascript">
+	      // Your beautiful D3 code will go here
+	    </script>
+	  </body>
+	</html>
+	  </textarea>
+	</div>
+
+	<div id="demo1404"></div>
+	<div>
+	  <textarea rows="36" cols="100" style="font-family:'Courier New'; background: rgba(128, 255, 255, 0.1);">
+
+      //Width and height
+      var w = 500;
+      var h = 300;
+
+      //Define map projection
+      var projection = d3.geoAlbersUsa()
+                   .translate([w/2, h/2])
+                   .scale([500]);
+
+      //Define path generator
+      var path = d3.geoPath()
+               .projection(projection);
+
+      //Create SVG element
+      var svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+      //Load in GeoJSON data
+      d3.json("us-states.json", function(json) {
+        //Bind data and create one path per GeoJSON feature
+        svg.selectAll("path")
+           .data(json.features)
+           .enter()
+           .append("path")
+           .attr("d", path)
+           .style("fill", "steelblue");
+      });
+
+	  </textarea>
+	</div>
+
     <script type="text/javascript">
-      // Your beautiful D3 code will go here
+        // Your beautiful D3 code will go here
+
+		function start(e) {
+	      //Width and height
+	      var w = 500;
+	      var h = 300;
+
+	      //Define map projection
+	      var projection = d3.geoAlbersUsa()
+	                   .translate([w/2, h/2])
+	                   .scale([500]);
+
+	      //Define path generator
+	      var path = d3.geoPath()
+	               .projection(projection);
+
+	      //Create SVG element
+	      var svg = d3.select("#demo1404")
+	            .append("svg")
+	            .attr("width", w)
+	            .attr("height", h);
+
+	      //Load in GeoJSON data
+	      d3.json("us-states.json", function(json) {
+	        //Bind data and create one path per GeoJSON feature
+	        svg.selectAll("path")
+	           .data(json.features)
+	           .enter()
+	           .append("path")
+	           .attr("d", path)
+	           .style("fill", "steelblue");
+	      });
+		}
+
+		window.addEventListener( "load", start, false );
     </script>
-  </body>
+</body>
 </html>
   
