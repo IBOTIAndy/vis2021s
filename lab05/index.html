@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Lab</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <!--記得使用https 不然網頁會讀不出來-->
+    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
     <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> --> <!-- v3.?.? -->
     <style type="text/css">/*
 		.bar {
@@ -19,19 +20,33 @@
     		border: 1px red solid;
     		padding: 20px;
     		vertical-align: bottom;
-    	}*/
+    	}*/        
+        body {
+            padding: 50px;
+            font-family: 'Noto Serif TC', serif;
+            /*font-family: Arial, Helvetica, sans-serif;*/
+            font-size: 50pt;
+            background: #1b2838;
+        }
+        div{
+            width: 200px;
+            background: #CCC;
+        }
     	svg{
-    		background: #CCC;
+    		background: #c6d4df;
     	}
     </style>
   </head>
   <body>
+    <div>
+        <text>Lab05</text>
+    </div>
     <script type="text/javascript">
  		//設定基本參數
- 		var margin = { top: 20, right: 20, bottom: 30, left: 40 },	//外框到圖形之間的寬度
+ 		var margin = { top: 40, right: 20, bottom: 30, left: 40 },	//外框到圖形之間的寬度
             width = window.innerWidth*2/3,	//讀取視窗寬度
             height = window.innerHeight*2/3,	//讀取視窗長度
-            textSize = 15;	//字的大小
+            textSize = window.innerWidth * 1/80;	//字的大小
 
         //新增svg
         var svg = d3.select("body").append("svg")
@@ -131,6 +146,7 @@
                 .attr("id","xaxis")
                 //translate(x, y) 放置於左下角
                 .attr("transform", "translate(" + xScale(0) + ", " + yScale(0) + ")")
+                //.attr("font-size", textSize)
                 .call(d3.axisBottom(x));	//顯示數值於線段的下方
                 
             svg.append("g")
