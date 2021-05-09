@@ -2,13 +2,169 @@
 <html lang="zh-Hant-TW">
   <head>
     <meta charset="utf-8">
-    <title>D3 Page Template</title>
+    <title>Lab</title>
     <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
-</head>
-<body>
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> --> <!-- v3.?.? -->
+    <style type="text/css">/*
+		.bar {
+            fill: steelblue;
+        }
+    	div{
+    		border: 1px black solid;	
+    		padding: 20px;
+    		margin: 1px 10px 1px 1px;	
+    		display: inline-block;
+    	}
+    	body {
+    		border: 1px red solid;
+    		padding: 20px;
+    		vertical-align: bottom;
+    	}*/
+    	svg{
+    		background: #CCC;
+    	}
+    </style>
+  </head>
+  <body>
     <script type="text/javascript">
-      // Your beautiful D3 code will go here
+ 		//設定基本參數
+ 		var margin = { top: 20, right: 20, bottom: 30, left: 40 },	//外框到圖形之間的寬度
+            width = window.innerWidth*2/3,	//讀取視窗寬度
+            height = window.innerHeight*2/3,	//讀取視窗長度
+            textSize = 15;	//字的大小
+
+        //新增svg
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.right + margin.left)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")// used for x, y lengend
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var rowConverter = function (d) {	//將data更改為物件，回傳給d3 csv使用
+            return {
+                Socse: parseInt(d.組界),
+                Number: parseInt(d.頻率)
+            };
+        }
+            	
+        d3.csv("./data.csv", rowConverter).then(function (data) {
+            data.forEach(function (d) {	//還不懂
+                d.Socse = +d.Socse;
+            });
+            var rowN = data.length;	//取資料數量
+            
+            //var heightMax = d3.max(function(d){ return d.Number;});	//不知道為甚麼最大值取不出來 
+            var heightMax = 39;	//n的最大值
+            var heightProp = height/heightMax;	//heightProportion n的比例尺 給資料高度使用
+            //window.alert(heightProp);
+
+            //設定介面比例尺 
+            var xScale = d3.scaleBand().range([0, width]);
+            xScale.domain([0, function(d){	//0~(60-33)
+            	max = d3.max(function(d){return d.Socse;});
+            	min = d3.min(function(d){return d.Socse;});
+            	return max - min;
+            }]);
+            //y上下顛倒 0擺在最下方 Linear用在連續參數
+            var yScale = d3.scaleLinear().range([height, 0]);
+            yScale.domain([0, height]);
+
+            //設定參數比例尺 #Band用在不連續參數
+            var x = d3.scaleBand()
+                .range([0, width])
+                .padding(0.2);	//間距 (與邊 各資料的間隔)
+            var y = d3.scaleLinear()
+                .range([height, 0]);	//將高度顛倒過來 方便從最下面開始計算(bottom = 0, top = height)            
+            // Scale the range of the data in the domains
+            x.domain(data.map(function (d) { return d.Socse; }));	//依據組別 (33~60)
+            y.domain([0, d3.max(data, function (d) { return d.Number; })]);
+            //參考資料: https://ithelp.ithome.com.tw/articles/10222418
+            //參考資料: https://ithelp.ithome.com.tw/articles/10222875
+
+            //長條圖
+            svg.selectAll("rect")
+	    	    .data(data)
+	    	    .enter()
+	    	    .append("rect")	//加上方形圖
+	    	    .attr("id", "bar")
+	    	    .attr("x", function(d, i){return x(d.Socse);})	//依據比例尺放置
+	    	    .attr("y", function(d){ return y(d.Number);})	//長條圖的最高點
+		    	.attr("width", (width / rowN) * 0.9)	//每個方形的寬度為 (寬度/全部數量) * 0.9
+		    	.attr("height", function(d, i){
+		    	  		return d.Number * heightProp;	//乘上圖片的比率，以便等比放大
+		    	  	}
+		    	)
+	    	    .attr("fill", function(d){	//顏色
+		    	  	G = Math.round((255 - d.Number * (255/50)));	//
+		    	  	// GG = parseInt(G, 16);	//將字串轉為16位元
+		    	  	GG = G.toString(16).substr(-4).toUpperCase();	//轉為16位元
+		    	  	if(GG < 10){
+		    	  		return "#F" + GG + GG;
+		    	  	}
+		    	  	return "#FF" + "20" + GG;	//橘色(255, 128, 0)
+    	  		});
+
+            //顯示資料的參數
+            svg.selectAll("text")
+		    	.data(data)
+		    	.enter()
+		    	.append("text")	//加上文字，以顯示各個長條圖的數值
+		    	.attr("x", function(d){	//置中調整
+		    		if(d.Number < 10){	//個位數
+		    			return x(d.Socse) - (textSize / 2) + (width / rowN) / 2;
+		    		}
+		    		else{
+		    			return x(d.Socse) - (textSize / 4) + (width / rowN) / 4;
+		    		}
+		    	})
+	    	    .attr("y", function(d){return y(d.Number) - (textSize / 5);})	//長條圖的最高點 再往上一點
+		    	.attr("font-size", textSize)	//文字大小
+		    	.attr("text-anchor", "start")	//
+		    	.attr("fill", "#000")	//顏色
+		    	
+		    	.text(function(d, i){	//文字顯示: 放入-> <text>"文字"</text>
+		    		return d.Number;
+		    	});
+
+            //設定x, y軸
+            svg.append("g")
+                .attr("id","xaxis")
+                //translate(x, y) 放置於左下角
+                .attr("transform", "translate(" + xScale(0) + ", " + yScale(0) + ")")
+                .call(d3.axisBottom(x));	//顯示數值於線段的下方
+                
+            svg.append("g")
+                .attr("id", "yaxis")
+                .call(d3.axisLeft(y));	//顯示數值於線段的左方
+
+            // Animation
+            // svg.selectAll("#amt")
+            //     .transition()
+            //     .duration(800)
+            //     .attr("font-size", textSize + "px");
+          
+            // svg.select("#xaxis")
+            //     .selectAll("text")
+            //     .transition()
+            //     .duration(800)
+            //     .attr("transform", "rotate(36)");
+
+            // svg.select("#yaxis")
+            //     .selectAll("text")
+            //     .transition()
+            //     .duration(800)
+            //     .attr("transform", "rotate(36)");
+
+            // svg.selectAll("rect")
+            //     .transition()
+            //     .duration(800)
+            //     .attr("y", function (d) { return y(d.Number); })
+            //     .attr("height", function (d) { return height - y(d.Number); })
+
+            console.log(data);
+        });
+
+
     </script>
   </body>
 </html>
-  
