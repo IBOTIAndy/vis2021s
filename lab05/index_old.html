@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8">
+    <title>Lab</title>
+    <!-- <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> --> <!-- v6.5.0 -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> <!-- v3.?.? -->
+    <style type="text/css">
+
+    	div{
+    		border: 1px black solid;	
+    		padding: 20px;
+    		/*margin: 1px 10px 1px 1px;	//*/
+    		display: inline-block;
+    	}
+    	body {
+    		border: 1px red solid;
+    		padding: 20px;
+    		vertical-align: bottom;
+    	}
+    	svg{
+    		background: #004;
+    	}
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+    d3.csv("data.csv", function(data){
+    	var proportion = 5;	//加權?
+    	//svg大小 = 圖片pixle大小
+    	var height = 1250;
+    	var width = 2750;
+    	var textSize = 15;
+    	var max = 50;
+    	var weighting = height / max;
+    	//當viewBox比例 < svg大小，自動等比例縮小
+    	//viewBox = 顯示的框框大小
+    	var viewHeight = height / proportion;
+    	var viewWidth = width / proportion;
+
+    	var textHeight = textSize * proportion;	//文字高度
+    	var boxBottomLine = height - textHeight; //長條圖的底
+    	var rowN = data.length;	//取得數量
+
+    	//長條圖顯示
+    	d3.select("body")
+    	  .append("svg")
+    	  .attr({
+    	  	"height": viewHeight,
+    	  	"width": viewWidth,
+    	  	"viewBox": function(){
+    	  		return "0 " + "0 " + (width).toString() + " " + (height).toString();
+    	  	},
+    	  	"preserveAspectRatio": "xMinYMin meet"})	//設定svg的大小
+    	  .selectAll("rect")
+    	  .data(data)
+    	  .enter()
+    	  .append("rect")	//加上方形圖
+    	  .filter(function(d, i){	//篩選
+      	   	return (i != 0);	//去除標題 (組界,頻率)
+      	   })	
+    	  .attr({
+    	  	"x": function(d, i){return i * (width / rowN);},	//x = (底圖寬度/全部數量)
+    	  	"y": function(d){return boxBottomLine - (d["頻率"] * weighting);}, //高度為頂點到底線的距離
+    	  	"width": (width / rowN) * 0.9,	//每個方形的寬度為 (底圖寬度/全部數量) * 0.9
+    	  	"height": function(d, i){
+    	  		return d["頻率"] * weighting;	//乘上圖片的比率，以便等比放大
+    	  	}
+    	  })
+    	  .attr("fill", function(d){	//顏色
+    	  	G = Math.round((255 - d["頻率"] * (255/50)));	//
+    	  	// GG = parseInt(G, 16);	//將字串轉為16位元
+    	  	GG = G.toString(16).substr(-4).toUpperCase();	//轉為16位元
+    	  	if(GG < 10){
+    	  		return "#F" + GG + GG;
+    	  	}
+    	  	return "#FF" + "20" + GG;	//橘色(255, 128, 0)
+    	  });
+
+    	//數值顯示
+    	d3.select("body")
+    	  .select("svg")
+    	  .selectAll("text")
+    	  .data(data)
+    	  .enter()
+    	  .append("text")	//加上文字，以顯示各個長條圖的數值
+    	  .filter(function(d, i){	//篩選
+    	  	return (i != 0);	//去除標題 (組界,頻率)
+    	  })
+    	  .attr({
+    	  	"x": function(d, i){
+    	  		if(d["頻率"] <= 10){	//個位數
+    	  			return i * (width / rowN) + textSize * 1.5;	//位置為(寬度/數量) + 置中所需數值
+    	  		}	//十位數
+    	  		return i * (width / rowN) + textSize / proportion;	//位置為(寬度/數量) + 置中所需數值
+    	  	},
+    	  	"y": function(d, i){
+    	  		if(d["頻率"] <= 4) {	//長條圖長度不足以放入數值時
+    	  			return height - weighting/2;	//顯示於底部
+    	  		}
+       	  		return boxBottomLine - (d["頻率"] * weighting) + textHeight;	//顯示於長條圖內部的頂端
+       	  	},
+    	  	"font-size": textHeight,	//文字大小
+    	  	"text-anchor": "start",	//
+    	  	"fill": "LightYellow"	//顏色
+    	  })
+    	  .text(function(d, i){	//文字顯示: 放入-> <text>"文字"</text>
+    	  	return d["頻率"];
+    	  });
+
+    });
+    </script>
+  </html>
+  
