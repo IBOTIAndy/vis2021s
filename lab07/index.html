@@ -1,14 +1,67 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>D3 Page Template</title>
+    <title>Lab 7</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
+
+        h1, div {
+          background-color: rgba(255, 255, 0, 0.1);
+          font-family: 'Noto Serif JP', serif;
+          font-size: 24pt;
+          border: solid 1px black;
+          width: 90%;
+          margin: 5px auto;
+          padding: 10px;
+        }
+
+        div {
+          font-size: 12pt;
+        }
+        
+        body {
+            background-color: rgba(255, 128, 255, 0.1);
+        }
+
+        video:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+    </style>
     <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
 </head>
 <body>
+    <h1>
+        lab07 漢字變形 Path Transitions
+    </h1>
+    <div>
+      限定使用 D3.js，參考以下影片。
+    	<ul>
+    		<li><a href="https://bocoup.com/blog/improving-d3-path-animation">Improving D3 Path Animation</a></li>
+    		<li><a href="https://bost.ocks.org/mike/path/">https://bost.ocks.org/mike/path/</a></li>
+    	</ul>
+    </div>
+
+    <div>
+  		<video width="400" controls loop autoplay>
+  		  <source src="2.mp4" type="video/mp4">
+  		</video>
+    </div>
+
+    <div>
+      展示區 (姓名)
+      <hr>
+      <img width="256" src="./uni8607_FZSJSK--GBK1-0.svg">
+      <img width="256" src="./uni5B50_FZSJSK--GBK1-0.svg">
+      <img width="256" src="./uni77BB_FZSJSK--GBK1-0.svg">
+    </div>
+
+    <div>
+      Drag and Drop 展示區 (接收任何SVG)
+    </div>
+
     <script type="text/javascript">
       // Your beautiful D3 code will go here
     </script>
-  </body>
-</html>
+  </html>
   
