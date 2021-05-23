@@ -24,6 +24,10 @@
             background-color: rgba(255, 128, 255, 0.1);
         }
 
+        svg {
+          background-color: black;
+        }
+
         video:hover {
             box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
         }
@@ -58,13 +62,459 @@
 
     <div>
       Drag and Drop 展示區 (接收任何SVG)
+      <hr>
+      <p>plz click svg</p>
+      <div style="width:256px;display:inline-block" src="./uni984F_FZSJSK--GBK1-0.svg" id="dpfc2" class="playSVG"></div>
+      <div style="width:256px;display:inline-block" src="./uni58EB_FZSJSK--GBK1-0.svg" id="dpsc2" class="playSVG"></div>
+      <div style="width:256px;display:inline-block" src="./uni7DB8_FZSJSK--GBK1-0.svg" id="dptc2" class="playSVG"></div>
     </div>
 
     <script type="text/javascript">
+        
       // Your beautiful D3 code will go here
-      d3.select("body")
-        .append("div")
-        .append("svg");
+        window.onload = () => {
+            // loadWordFromPath('./zheng.svg', '#dpf',0);
+            // loadWordFromPath('./li.svg', '#dps',0);
+            // loadWordFromPath('./hong.svg', '#dpt',0);
+            loadWordFromPath('./uni984F_FZSJSK--GBK1-0.svg', '#dpfc2',1);
+            loadWordFromPath('./uni58EB_FZSJSK--GBK1-0.svg', '#dpsc2',1);
+            loadWordFromPath('./uni7DB8_FZSJSK--GBK1-0.svg', '#dptc2',1);
+
+            document.getElementById('dropfile').addEventListener('dragover', (evt) => {
+                evt.preventDefault()
+            })
+
+            document.getElementById('dropfile').addEventListener('drop', (evt) => {
+                evt.preventDefault()
+                var files = evt.dataTransfer.files; // FileList object.
+                console.log(files)
+                loadWord(files, '#svgimage', 0);
+            })
+
+        }
+        function loadWordFromPath(filePath, elementId, option) {
+            readFileFromPath(filePath, (e) => {
+                var svgpanel = d3.select(elementId)
+                var newPathd = svgpanel
+                    .html(e)
+                    .select('path')
+                    .attr('d')
+                var circlePathd;
+                if (option == 0) {
+                    circlePathd = convertor(newPathd)
+                }
+                else {
+                    circlePathd = convertor2(newPathd)
+                }
+
+                svgpanel
+                    .select('path')
+                    .attr('d', circlePathd)
+                    .attr('fill', 'none')
+
+                    .attr('stroke', 'yellow')
+                    .attr('stroke-width', 1.2)
+
+                svgpanel
+                    .on('click', (evt) => {
+                        console.log('a')
+                        svgpanel
+                            .select('path')
+                            .transition()
+                            .duration(8000)
+                            .attr('d', newPathd)
+                            .transition()
+                            .duration(8000)
+                            .attr('d', circlePathd)
+                    })
+            })
+        }
+        function loadWord(files, elementId, option) {
+            readFiles(files, (e) => {
+                var svgpanel = d3.select(elementId)
+                var newPathd = svgpanel
+                    .html(e.target.result)
+                    .select('path')
+                    .attr('d')
+
+                var circlePathd;
+                if (option == 0) {
+                    circlePathd = convertor(newPathd)
+                }
+                
+
+                svgpanel
+                    .select('path')
+                    .attr('d', circlePathd)
+                    .attr('fill', 'none')
+
+                    .attr('stroke', 'blue')
+                    .attr('stroke-width', 1)
+
+                svgpanel
+                    .on('click', (evt) => {
+                        console.log('a')
+                        svgpanel
+                            .select('path')
+                            .transition()
+                            .duration(8000)
+                            .attr('d', newPathd)
+                    })
+            })
+        }
+
+        function spellCheck(newpath) {
+            newpath = newpath.replaceAll('q', ' q ')
+            newpath = newpath.replaceAll('v', ' v ')
+            newpath = newpath.replaceAll('t', ' t ')
+            newpath = newpath.replaceAll('h', ' h ')
+            newpath = newpath.replaceAll('l', ' l ')
+            newpath = newpath.replaceAll('z', '')
+            newpath = newpath.replaceAll('/\s/g', ' ')
+            return newpath
+        }
+
+        function strokeGenerator(newpath) {
+            var stroke = newpath.split("M")
+            var pointSizes = [];
+            var orders = []
+            for (var i = 1; i < stroke.length; i++) {
+                var points = stroke[i].split(" ");
+                var order = []
+                var pointSize = 0;
+                for (var j = 0; j < points.length; j++) {
+                    if (points[j] == 'q') {
+                        j = j + 4;
+                        pointSize = pointSize + 1;
+                        order.push('q')
+                    }
+                    else if (points[j] == 'v') {
+                        j = j + 1;
+                        order.push('v')
+                    }
+                    else if (points[j] == 'h') {
+                        j = j + 1;
+                        order.push('h')
+                    }
+                    else if (points[j] == 't') {
+                        j = j + 2;
+                        if (order[order.length - 1] == 'q') {
+                            pointSize = pointSize + 1;
+                        }
+                        order.push('t')
+                    }
+                    else if (points[j] == 'l') {
+                        j = j + 2;
+                        order.push('l')
+                    }
+                    else {
+                        j = j + 1;
+                        pointSize = pointSize + 1;
+                        order.push('n')
+                    }
+                }
+                pointSizes.push(pointSize - 1)//原點重疊
+                orders.push(order)
+            }
+            return [stroke, pointSizes, orders]
+        }
+
+        function findMaxIndex(pointSizes) {
+            maxindex = 0
+            for (var i = 1; i < pointSizes.length; i++) {
+                if (pointSizes[maxindex] < pointSizes[i]) {
+                    maxindex = i;
+                }
+            }
+            return maxindex
+        }
+
+        function convertor(newpath) {
+
+            newpath = spellCheck(newpath)
+
+            var stroke, pointSizes, orders;
+            [stroke, pointSizes, orders] = strokeGenerator(newpath);
+            var maxindex = findMaxIndex(pointSizes);
+            var path = ""
+            
+            for (var i = 1, radius = 64; i < stroke.length; i++) {
+                path = path + "M";
+                var gap = Math.PI * 2 / pointSizes[i-1];
+                var angle = 0;
+                if (i == maxindex+1) {
+                //if (true) {
+                    path = path
+                        + (radius * (Math.cos(angle)) + radius*2) + " "
+                        + (radius * (Math.sin(angle)) + radius*2) + " ";
+                    angle = angle + gap;
+
+                    for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
+
+
+                        if (order[j] == 'q') {
+                            path = path + ' q ';
+                            var r = radius / Math.cos(gap / 2);
+                            path = path
+                                + (r * Math.cos(angle - gap / 2) - radius * Math.cos(angle - gap)) + " "
+                                + (r * Math.sin(angle - gap / 2) - radius * Math.sin(angle - gap)) + " ";
+
+                            path = path
+                                + (radius * (Math.cos(angle) - Math.cos(angle - gap))) + " "
+                                + (radius * (Math.sin(angle) - Math.sin(angle - gap))) + " ";
+                            angle = angle + gap;
+                        }
+                        else if (order[j] == 'v') {
+                            path = path + 'v';
+                            path = path
+                                + parseInt(0) + " ";
+                        }
+                        else if (order[j] == 'h') {
+                            path = path + 'h';
+                            path = path
+                                + parseInt(0) + " ";
+                        }
+                        else if (order[j] == 't') {
+                            path = path + 't';
+                            if (order[j-1] == 'q') {
+                                path = path
+                                    + (radius * (Math.cos(angle) - Math.cos(angle - gap))) + " "
+                                    + (radius * (Math.sin(angle) - Math.sin(angle - gap))) + " ";
+                                angle = angle + gap;
+                            }
+                            else {
+                                path = path
+                                    + (0) + " "
+                                    + (0) + " ";
+                            }
+
+                        }
+                        else if (order[j] == 'l') {
+                            path = path + 'l';
+                            path = path
+                                + parseInt(0) + " "
+                                + parseInt(0) + " ";
+                        }
+                        else {
+                            path = path
+                                + (radius * (Math.cos(angle) - Math.cos(angle - gap))) + " ";
+                            path = path
+                                + (radius * (Math.sin(angle) - Math.sin(angle - gap))) + " ";
+                            angle = angle + gap;
+                        }
+                    }
+                }
+                else {
+                    path = path
+                        + (radius * (Math.cos(0)) + radius) + " "
+                        + (radius * (Math.sin(0)) + radius) + " ";
+
+                    for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
+                        if (order[j] == 'q') {
+                            path = path + ' q ';
+
+                            path = path + (0) + " " + (0) + " ";
+                            path = path + (0) + " " + (0) + " ";
+                        }
+                        else if (order[j] == 'v') {
+                            path = path + 'v';
+                            path = path + (0) + " ";
+                        }
+                        else if (order[j] == 'h') {
+                            path = path + 'h';
+                            path = path + (0) + " ";
+                        }
+                        else if (order[j] == 't') {
+                            path = path + 't';
+                            path = path + (0) + " " + (0) + " ";
+
+                        }
+                        else if (order[j] == 'l') {
+                            path = path + 'l';
+                            path = path + (0) + " " + (0) + " ";
+                        }
+                        else {
+                            path = path + (0) + " ";
+                            path = path + (0) + " ";
+                        }
+                    }
+                }
+
+                path = path + "z";
+            }
+            return path
+        }
+
+        function convertor2(newpath) {
+
+            newpath = spellCheck(newpath)
+
+            var stroke, pointSizes, orders;
+            [stroke, pointSizes, orders] = strokeGenerator(newpath);
+            var maxindex = findMaxIndex(pointSizes);
+            var path = ""
+
+            for (var i = 1, radius = 64; i < stroke.length; i++) {
+                path = path + "M";
+                var gap = Math.PI * 2 / pointSizes[i - 1];
+                var angle = 0;
+                
+                if (true) {
+                    path = path
+                        + (radius * (Math.cos(angle)) + radius * 2) + " "
+                        + (radius * (Math.sin(angle)) + radius * 2) + " ";
+                    angle = angle + gap;
+
+                    for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
+
+
+                        if (order[j] == 'q') {
+                            path = path + ' q ';
+                            var r = radius / Math.cos(gap / 2);
+                            path = path
+                                + (r * Math.cos(angle - gap / 2) - radius * Math.cos(angle - gap)) + " "
+                                + (r * Math.sin(angle - gap / 2) - radius * Math.sin(angle - gap)) + " ";
+
+                            path = path
+                                + (radius * (Math.cos(angle) - Math.cos(angle - gap))) + " "
+                                + (radius * (Math.sin(angle) - Math.sin(angle - gap))) + " ";
+                            angle = angle + gap;
+                        }
+                        else if (order[j] == 'v') {
+                            path = path + 'v';
+                            path = path
+                                + parseInt(0) + " ";
+                        }
+                        else if (order[j] == 'h') {
+                            path = path + 'h';
+                            path = path
+                                + parseInt(0) + " ";
+                        }
+                        else if (order[j] == 't') {
+                            path = path + 't';
+                            if (order[j - 1] == 'q') {
+                                path = path
+                                    + (radius * (Math.cos(angle) - Math.cos(angle - gap))) + " "
+                                    + (radius * (Math.sin(angle) - Math.sin(angle - gap))) + " ";
+                                angle = angle + gap;
+                            }
+                            else {
+                                path = path
+                                    + (0) + " "
+                                    + (0) + " ";
+                            }
+
+                        }
+                        else if (order[j] == 'l') {
+                            path = path + 'l';
+                            path = path
+                                + parseInt(0) + " "
+                                + parseInt(0) + " ";
+                        }
+                        else {
+                            path = path
+                                + (radius * (Math.cos(angle) - Math.cos(angle - gap))) + " ";
+                            path = path
+                                + (radius * (Math.sin(angle) - Math.sin(angle - gap))) + " ";
+                            angle = angle + gap;
+                        }
+                    }
+                }
+                else {
+                    path = path
+                        + (radius * (Math.cos(0)) + radius) + " "
+                        + (radius * (Math.sin(0)) + radius) + " ";
+
+                    for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
+                        if (order[j] == 'q') {
+                            path = path + ' q ';
+
+                            path = path + (0) + " " + (0) + " ";
+                            path = path + (0) + " " + (0) + " ";
+                        }
+                        else if (order[j] == 'v') {
+                            path = path + 'v';
+                            path = path + (0) + " ";
+                        }
+                        else if (order[j] == 'h') {
+                            path = path + 'h';
+                            path = path + (0) + " ";
+                        }
+                        else if (order[j] == 't') {
+                            path = path + 't';
+                            path = path + (0) + " " + (0) + " ";
+
+                        }
+                        else if (order[j] == 'l') {
+                            path = path + 'l';
+                            path = path + (0) + " " + (0) + " ";
+                        }
+                        else {
+                            path = path + (0) + " ";
+                            path = path + (0) + " ";
+                        }
+                    }
+                }
+
+                path = path + "z";
+            }
+            return path
+        }
+
+        function readFiles(files, func) {
+            var output = [];
+
+            for (var i = 0, f; f = files[i]; i++) {
+                output = [];
+                //alert(f.name)
+                //ext = f.name.substring(f.name.lastIndexOf(".") + 1);
+                //console.log('ext = ' + ext);
+
+                output.push('<li><strong>',
+                    escape(f.name),
+                    '</strong>',
+                    f.type || 'n/a',
+                    f.size,
+                    ' bytes, last modified: ',
+                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                    '</li>');
+                //alert(output)
+
+
+                // https://www.html5rocks.com/en/tutorials/file/dndfiles//
+                // Only process image files.
+                // f.mimetype.match('text.*|image.*|application.*')
+                if (!f.type.match('image.svg')) {
+                    alert('Not a SVG!')
+                    continue; // skip rest of the codes
+                }
+                //else {
+                //  alert('It is a SVG!')
+                //}
+
+                let reader = new FileReader();
+
+                // Read in the image file as a data URL.
+                //reader.readAsDataURL(f);
+                reader.readAsText(files[0], 'UTF-8');
+                // https://www.html5rocks.com/en/tutorials/file/dndfiles//
+
+                // Closure to capture the file information.
+                reader.onload = func
+            }
+        }
+
+        function readFileFromPath(filePath, func) {
+
+            var request = new XMLHttpRequest();
+            request.open("GET", filePath);
+            request.setRequestHeader("Content-Type", "image/svg+xml");
+            request.addEventListener("load", function (event) {
+                var response = event.target.responseText;
+                func(response)
+            });
+            request.send();
+        }
     </script>
   </html>
   
