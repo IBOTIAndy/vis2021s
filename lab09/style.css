@@ -1,0 +1,63 @@
+body {
+    
+}
+
+.app{
+    width: 1920px;
+    height: 1080px;
+    background-image: url("background_from_ina.png");
+    margin-left:20px; 
+    margin-top:20px;
+    margin-right:20px;
+}
+video {
+    position:absolute; 
+    top:50%; 
+    left:50%; 
+    margin-left:-480px; 
+    margin-top:-270px;
+}
+
+svg {
+    position:absolute; 
+    top:50%; 
+    left:50%; 
+    margin-left:-480px; 
+    margin-top:-270px;
+    border: 1px solid gray;
+}
+
+svg text {
+    font-size: 35px;
+    fill: white;
+    stroke: red;
+    font-family: 'MS PGothic';
+}
+
+svg text {
+    /* opacity:0.7; */
+}
+
+svg text:hover {
+    /* opacity:1; */
+}
+
+text:hover {
+    fill: red;
+}
+
+#replay:hover {
+    box-shadow: 0px 0px 5px 5px rgba(255, 128, 128, 0.5);
+}
+
+#video:hover {
+    box-shadow: 0px 0px 5px 5px rgba(128, 255, 128, 0.5);
+}
+
+#subtitle:hover {
+    box-shadow: 0px 0px 5px 5px rgba(128, 128, 255, 0.5);
+}
+
+#subtitle {
+    pointer-events: none;
+}

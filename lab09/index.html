@@ -2,13 +2,182 @@
 <html lang="zh-Hant-TW">
   <head>
     <meta charset="utf-8">
-    <title>D3 Page Template</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <title>Lab09 Our Campfire D3.js</title>
+    <link rel="stylesheet" href="style2.css">
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <meta charset="utf-8">
 </head>
 <body>
+  <div class="app">
+  <video id="video" width="960px" height="540" preload="auto" onended="document.getElementById('replay').style.display='inline'; document.getElementById('video').style.display='none'; d3.select('#subtitle').remove();" controls>
+    <source src="./GawrGura_sings_CampfireSong_kulele version_karaoke_2021-05-01.mp4" type="video/mp4">
+  </video>
+
+    <div id="srt"></div>
+  </div>
     <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
+
+		document.getElementById("video").style.display = "none";
+    
+		d3.select('body')
+		  .append('svg')
+		  .attr('id', 'replay')
+		  .attr('width', 960)
+		  .attr('height', 540)
+		  .append('image')
+		  .attr('x', 220)
+		  .attr('y', 100)
+          .attr("xlink:href","​guraGlow.png")
+		  .on('click', function(){
+		  	document.getElementById("video").play();
+		  	document.getElementById("video").style.display = "inline";
+		  	//document.getElementById("subtitle").style.display = "inline";
+		  	//this.style.display = 'none';
+		  	document.getElementById("replay").style.display = "none";
+		  	make_subtitle();
+		  })
+		  ;
+
+
+    
+		var myarray = [];
+		var key;
+		var begin;
+		var end;
+		var dur;
+		var subtitle;
+
+		var time = 0;
+
+		function play_time(){
+			
+			time = 0;
+			
+			let timer = setInterval(() => {
+
+				var mytime;
+
+				if (time % 60 < 10) 
+					mytime = '0' + parseInt(time / 60) + ':' + '0' + time % 60;
+				else
+					mytime = '0' + parseInt(time / 60) + ':' + time % 60;
+
+			    d3.select('#subtitle')
+			      .append('text')
+			      .text(mytime)
+			      .attr('x', 800)
+			      .attr('y', 60)
+			      .attr('opacity', 0)
+			      .transition()
+			      .duration(1000)
+			      .attr('opacity', 1)
+			      .transition()
+			      .duration(1000)
+			      .attr('opacity', 0)
+			      .remove()
+			      ;
+
+			    time++;
+			}, 1000);
+		}
+
+
+		function make_subtitle(){
+
+			d3.text('guraSing.srt', function(data){
+				console.log(data);
+				//alert(data);
+
+				parsedCSV = d3.csvParseRows(data);
+				console.log(parsedCSV);
+				//alert('parsedCSV.length = ' + parsedCSV.length);
+
+				d3.select('#srt')
+				  .selectAll('p')
+				  .data(parsedCSV)
+				  .enter()
+				  .append("p")
+				  .text(function(d, i){
+				  	//return d;
+				  	if ( !isNaN(d) && d != '' ){
+				  		key = parseInt(d);
+				  	} else if (d == '') {
+				  		myarray.push({
+				  			"key": key,
+				  			"begin": begin,
+				  			"end": end,
+				  			"dur": end - begin,
+				  			"subtile": subtile
+				  		});
+				  	} else if (d.length == 3 ){
+				  		begin = (parseInt(d[0][3]) * 10 + parseInt(d[0][4])) * 60 +
+				  		        (parseInt(d[0][6]) * 10 + parseInt(d[0][7]));
+
+				  		end =   (parseInt(d[1][11]) * 10 + parseInt(d[1][12])) * 60 +
+				  		        (parseInt(d[1][14]) * 10 + parseInt(d[1][15]));
+				  	} else {
+				  		subtile = d;
+				  	}   
+				  })
+				  ;
+
+				  // 完成歌詞
+				  console.log(myarray);
+
+				  // 完成歌詞
+				  var w = 960;
+				  var h = 540;
+
+				  var svg = d3.select('body')
+				    .append('svg')
+				    .attr('id', 'subtitle')
+				    .attr('width', w)
+				    .attr('height', h)
+				    .attr('viewbox', function(){
+				    	return "0, 0, " + w + ', ' + h;
+				    })
+				    ;
+
+				svg.selectAll('text')
+			       .data(myarray)
+			       .enter()
+			       .append('text')
+			       .text(function(d, i){
+						return d.subtile;
+					})
+			       .attr('begin', function(d, i){
+			       		return d.begin;
+			       })
+			       .attr('end', function(d, i){
+			       		return d.end;
+			       })
+			       .attr('x', w / 2)
+			       .attr('y', h - 50)
+			       .attr("text-anchor", "middle")
+			       //.style('display', 'none')
+			       .attr('opacity', 0)
+			       .transition()
+			       .delay(function(d){
+			     	   return (d.begin - d.dur / 2) * 1000;
+			       })
+			       .duration(function(d){
+			           return (d.dur + d.dur / 2) * 1000;
+			       })
+			       .attr('opacity', 1)
+			       .transition()
+		           .duration(function(d){
+		               return (d.dur / 6.0 * 1000.0);
+		           })
+			       .attr('opacity', 0)
+			       ;
+
+			    play_time();
+			})
+		}
+
+
+
+	</script>
   </body>
 </html>
   
