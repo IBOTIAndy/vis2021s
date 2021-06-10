@@ -1,14 +1,818 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>D3 Page Template</title>
+    <title>Lab 8</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
+
+        h1, div {
+          background-color: rgba(255, 255, 0, 0.1);
+          font-family: 'Noto Serif JP', serif;
+          font-size: 24pt;
+          border: solid 1px black;
+          width: 90%;
+          margin: 5px auto;
+          padding: 10px;
+        }
+
+        div {
+          font-size: 12pt;
+        }
+        
+        body {
+            background-color: rgba(255, 128, 255, 0.1);
+        }
+
+        video:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+
+        .svgline {
+          background-color: rgba(240, 0, 240, 0.562);
+        }
+
+        /* Here is head of Yen */
+        #pathYen01 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen01 5s linear forwards;
+        }
+        @keyframes dashYen01{
+          0%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          5.8%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen02 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen02 5s linear forwards;
+        }
+        @keyframes dashYen02{
+          0%,
+          5.8%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          11.7%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen03 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen03 5s linear forwards;
+        }
+        @keyframes dashYen03{
+          0%,
+          11.7%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          17.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen04 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen04 5s linear forwards;
+        }
+        @keyframes dashYen04{
+          0%,
+          17.6%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          23.5%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen05 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen05 5s linear forwards;
+        }
+        @keyframes dashYen05{
+          0%,
+          23.5%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          29.4%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen06 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen06 5s linear forwards;
+        }
+        @keyframes dashYen06{
+          0%,
+          29.4%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          35.2%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen07 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen07 5s linear forwards;
+        }
+        @keyframes dashYen07{
+          0%,
+          35.2%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          41.1%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen08 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen08 5s linear forwards;
+        }
+        @keyframes dashYen08{
+          0%,
+          41.1%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          47%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen09 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen09 5s linear forwards;
+        }
+        @keyframes dashYen09{
+          0%,
+          47%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          52.9%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen10 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen10 5s linear forwards;
+        }
+        @keyframes dashYen10{
+          0%,
+          52.9%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          58.8%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen11 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen11 5s linear forwards;
+        }
+        @keyframes dashYen11{
+          0%,
+          58.8%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          64.7%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen12 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen12 5s linear forwards;
+        }
+        @keyframes dashYen12{
+          0%,
+          64.7%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          70.5%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen13 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen13 5s linear forwards;
+        }
+        @keyframes dashYen13{
+          0%,
+          70.5%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          76.4%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen14 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen14 5s linear forwards;
+        }
+        @keyframes dashYen14{
+          0%,
+          76.4%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          82.3%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen15 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen15 5s linear forwards;
+        }
+        @keyframes dashYen15{
+          0%,
+          82.3%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          88.2%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen16 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen16 5s linear forwards;
+        }
+        @keyframes dashYen16{
+          0%,
+          88.2%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          94.1%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathYen17 {
+          stroke-width: 12;
+          clip-path: url("#cp");
+          stroke-dasharray: 500;
+          animation: dashYen17 5s linear forwards;
+        }
+        @keyframes dashYen17{
+          0%,
+          94.1%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          100%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+
+        /* Here is head of Shih */
+        #pathShih01 {
+          stroke-width: 12;
+          clip-path: url("#cp2");
+          stroke-dasharray: 1000;
+          animation: dashShih01 5s linear forwards;
+        }
+        @keyframes dashShih01{
+          0%{
+            stroke-dashoffset: 232; /*begin*/
+          }
+          33.3%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathShih02 {
+          stroke-width: 12;
+          clip-path: url("#cp2");
+          stroke-dasharray: 500;
+          animation: dashShih02 5s linear forwards;
+        }
+        @keyframes dashShih02{
+          0%,
+          33.3%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          66.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathShih03 {
+          stroke-width: 12;
+          clip-path: url("#cp2");
+          stroke-dasharray: 500;
+          animation: dashShih03 5s linear forwards;
+        }
+        @keyframes dashShih03{
+          0%,
+          66.6%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          100%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+
+        /* Here is head of Lun */
+        #pathLun01 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 232;
+          animation: dashLun01 5s linear forwards;
+        }
+        @keyframes dashLun01{
+          0%{
+            stroke-dashoffset: 412; /*begin*/
+          }
+          6.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun02 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 232;
+          animation: dashLun02 5s linear forwards;
+        }
+        @keyframes dashLun02{
+          0%,
+          6.6%{
+            stroke-dashoffset: 232; /*begin*/
+          }
+          13.3%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun03 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun03 5s linear forwards;
+        }
+        @keyframes dashLun03{
+          0%,
+          13.3%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          20%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun04 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun04 5s linear forwards;
+        }
+        @keyframes dashLun04{
+          0%,
+          20%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          26.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun05 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun05 5s linear forwards;
+        }
+        @keyframes dashLun05{
+          0%,
+          26.6%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          33.3%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun06 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun06 5s linear forwards;
+        }
+        @keyframes dashLun06{
+          0%,
+          33.3%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          40%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun07 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun07 5s linear forwards;
+        }
+        @keyframes dashLun07{
+          0%,
+          40%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          46.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun08 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun08 5s linear forwards;
+        }
+        @keyframes dashLun08{
+          0%,
+          46.6%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          53.3%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun09 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun09 5s linear forwards;
+        }
+        @keyframes dashLun09{
+          0%,
+          53.3%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          60%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun10 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun10 5s linear forwards;
+        }
+        @keyframes dashLun10{
+          0%,
+          60%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          66.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun11 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun11 5s linear forwards;
+        }
+        @keyframes dashLun11{
+          0%,
+          66.6%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          73.3%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun12 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun12 5s linear forwards;
+        }
+        @keyframes dashLun12{
+          0%,
+          73.3%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          80%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun13 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun13 5s linear forwards;
+        }
+        @keyframes dashLun13{
+          0%,
+          80%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          86.6%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+        #pathLun14 {
+          stroke-width: 12;
+          clip-path: url("#cp3");
+          stroke-dasharray: 500;
+          animation: dashLun14 5s linear forwards;
+        }
+        @keyframes dashLun14{
+          0%,
+          86.6%{
+            stroke-dashoffset: 500; /*begin*/
+          }
+          100%{
+            stroke-dashoffset: 0;   /*end*/
+          }
+        }
+
+
+    </style>
     <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
 </head>
 <body>
+    <h1>
+        lab08 漢字書寫 (鉛筆字) (毛筆字也OK!) Path Animation
+    </h1>
+    <div>
+      限定使用 D3.js，參考以下影片。
+    	<ul>
+    		<li><a href="https://bl.ocks.org/basilesimon/f164aec5758d16d51d248e41af5428e4">Animate path in D3</a></li>
+    		<li><a href="https://codepen.io/MyXoToD/post/howto-self-drawing-svg-animation">"Self-Drawing" SVG</a></li>
+    		<li><a href="https://stackoverflow.com/questions/15275362/how-to-transition-a-path-in-d3-js">How to transition a path in d3.js</a></li>
+        <li><a href="https://css-tricks.com/svg-line-animation-works/">How SVG Line Animation Works</a></li>
+        <li><a href="http://blog.roachking.net/blog/2014/10/31/osolve-team-drawing-animation/">使用 SVG 將圖片做成動畫</a></li>
+        <li><a href="https://www.hesyifei.com/">何一非</a></li>
+    	</ul>
+    </div>
+
+    <div>
+  		<video width="400" controls loop autoplay>
+  		  <source src="3.mp4" type="video/mp4">
+  		</video>
+    </div>
+
+    <div>
+      展示區 (姓名)
+      <hr>
+      <img width="256" src="./uni8607_FZSJSK--GBK1-0.svg">
+      <img width="256" src="./uni5B50_FZSJSK--GBK1-0.svg">
+      <img width="256" src="./uni77BB_FZSJSK--GBK1-0.svg">
+    </div>
+
+    <div>
+      Drag and Drop 展示區 (接收任何SVG)
+      <hr>
+      <img width="256" src="./uni984F_yen.svg">
+      <img width="256" src="./uni58EB_shih.svg">
+      <img width="256" src="./uni7DB8_lun.svg">
+      <hr>
+      <!--uni984F_yen.svg-->
+      <svg class="csvAnimation" id="svgline"
+          xmlns= "http://www.w3.org/2000/svg" xlink= "http://www.w3.org/1999/xlink" 
+          version= "1.1"
+          width= "399" height= "384"
+          viewBox= "-10 0 266 256">
+        <!--width height = origin * (3/4)-->
+        <defs>
+          <clipPath id="cp">
+            <path fill="currentColor"
+              d="M168 45q10 5 16 9q2 4 -2 5q-6 0 -9 7q-5 7 -10 20q3 0 0 9q-4 7 -3 17q15 -5 15 -8q1 -1 3 -2q3 -1 7 -2l4 -2q1 0 2 2q2 3 -3 5t-10 9q0 -1 -1 1q-3 4 -2 -1q1 -4 -5 -2q-3 2 -10 2q-2 33 4 39q3 -1 10 -4q5 -3 7 -4q3 -2 6 -2t6 1v2q-8 4 -15 17q-26 41 -53 48 q-3 -1 0 -2q31 -17 56 -58q-1 1 -4 2q-14 6 -20 9q-12 6 -21 9q-4 2 -5 -3q-1 -1 1 -1q0 1 4 0q2 0 3 -1q13 -5 20 -10q-2 -2 -8 -7q-3 -2 1 -5q3 -2 3 -7q-1 -12 2 -42q0 -6 -7 -9q-2 -2 1 -1h7q2 -6 4 -10q5 -14 7 -18t-2 -9q-2 -1 -2 -2q1 -1 3 -1zM203 71l2 4q2 1 3 2 q4 2 6 4q1 5 0 7q-5 2 -5 5q-2 15 -2 27q1 11 1 23q-1 9 1 14q2 14 -4 12q-3 2 -4 -3q-2 -3 -5 -6q-3 -1 -6 -5q-2 -1 0 -1q1 1 4 2h6q3 1 3 -4v-15v-17q-1 -1 -1 -5q-1 -15 -1 -33q0 -8 -3 -9t-11 3q-10 6 -15 4q-2 0 -2 -1t2 -2q4 -1 7 -3q20 -8 24 -3zM200 19q4 -2 20 5 q1 3 0 6q-4 2 -8 1q-8 0 -13 3q-10 4 -25 6q-5 0 -1 -2q8 -2 20 -8q2 -3 -5 -1q-22 8 -38 5q-5 -1 0 -2q33 -5 50 -13zM114 22q1 -3 6 -3l4 2q7 2 10 4q1 1 0 2q0 1 -2 1q-10 -1 -24 4q-4 2 -5 2q1 2 3 3q2 2 0 2l-1 1q-3 1 -3 3q-6 12 -12 20q16 8 22 12q3 -1 7 -2 q-1 -4 2 -5q0 -1 3 -1q4 5 10 6q2 1 1 4q0 3 -4 2q-7 -1 -17 1q-19 6 -34 14q-4 2 -5 2t2 -2t14 -8q1 0 1 -1q-15 4 -37 11q-6 4 -15 3q-4 0 1 -2q20 -7 63 -20q-8 -5 -16 -11q-13 14 -30 22q-5 1 0 -2q14 -6 26 -22q-10 -5 -26 -12q-6 -2 1 -1q14 4 27 10q9 -15 12 -22v-3 q-8 3 -16 10q-7 4 -2 -1q10 -9 3 -7q-3 2 -14 5l-6 2q-11 3 -19 -1q-4 -1 1 -1q11 1 55 -13q9 -2 14 -8zM70 102q1 0 1 1t-1 2q-3 2 -2 6t0 4q-6 0 -6 11q-13 60 -43 100q-3 3 -1 -1q35 -54 40 -101q1 -10 0 -10q-4 -2 12 -12zM186 172q15 12 32 27q2 3 4 3q8 4 8 12 q-2 4 -6 2q-5 -2 -9 -8q-16 -19 -30 -34q-2 -2 1 -2zM108 168q2 1 6 2h6q-2 6 -3 6q-4 1 -9 5q-1 1 -2 1q-23 21 -48 32q-3 0 0 -2q16 -9 36 -26q7 -5 8 -10q3 -9 6 -8zM102 129q1 1 4 2q7 2 10 3q1 2 0 4q-10 3 -14 7q-28 26 -40 32q-3 1 -1 -1q12 -11 24 -21q6 -5 11 -10 q8 -10 3 -13q-1 -3 3 -3zM69 6q19 4 29 15q1 4 -1 7t-5 0q-3 -2 -10 -5q-1 0 -1 -1q-4 -1 -2 -5q3 -1 -10 -10q-5 -2 0 -1zM101 97q0 1 1 1q3 1 4 2q2 2 0 3t-1 1q-8 5 -9 8q-16 20 -32 27q-4 2 -1 -1q18 -12 31 -32q1 -1 3 -6q1 -4 4 -3zM190 123q-2 6 -9 6q-3 1 -7 4l-1 1 q-2 3 -1 0v-1q-1 -1 -3 -1q-4 0 -2 -1q1 0 4 -2q2 -1 3 -2q5 -4 14 -7q1 1 2 3z"
+              id="pathYenClip"
+              style="fill:none;stroke:#ff0000;stroke-opacity:12" 
+              />
+          </clipPath>
+        </defs>
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 64.884354,4.1795918 c 0,0 36.223126,19.1564622 35.526526,20.8979592 -0.69659,1.741497 -24.380948,-7.314286 -24.380948,-7.314286"
+          id="pathYen01" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 39.458503,42.840816 14.976871,1.741497 c 0,0 65.828576,-20.897959 80.805446,-18.111565 -18.80817,-5.572789 -17.76327,-6.617687 -17.76327,-6.617687 -1.0449,3.134694 -6.61769,8.359184 -6.61769,8.359184 0,0 -19.50476,5.921088 -34.829928,20.54966"
+          id="pathYen02" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 102.15238,33.436735 c 0,0 -10.79728,42.144217 -49.110203,55.727891"
+          id="pathYen03" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 54.087075,50.155102 c 0,0 47.368705,18.111565 58.514285,27.167347"
+          id="pathYen04" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 35.627211,98.917007 c 0,0 88.816329,-27.167347 102.399999,-22.291157 -14.97687,-5.572789 -17.41497,-10.448979 -17.41497,-10.448979 l 6.96599,4.87619 -56.076189,26.470749"
+          id="pathYen05" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 69.760544,102.7483 -9.404081,13.58367 c 0,0 -10.100681,69.31157 -44.582313,114.24218"
+          id="pathYen06" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 104.93878,96.478912 c 0,0 -19.504766,30.302038 -45.278916,44.582308"
+          id="pathYen07" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 96.57959,128.17415 20.89796,10.10068 -8.01088,-8.35918 c -4.87619,10.79728 -24.380956,29.60544 -50.851704,48.7619"
+          id="pathYen08" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 101.80408,170.66667 18.11157,4.17959 -6.61769,-5.92109 c -5.57279,8.01088 -43.189116,44.58231 -59.210885,45.97551"
+          id="pathYen09" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 143.6,32.391837 c 21.94286,3.134694 62.69388,-10.797279 62.69388,-10.797279 l -9.05578,-1.044898 22.29115,11.842177 -3.13469,-9.404082 c 0,0 -35.17823,17.066667 -47.71701,17.066667"
+          id="pathYen10" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 164.14966,44.234014 14.62857,13.931972 -1.3932,-9.752381 -18.80816,40.054422"
+          id="pathYen11" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 146.38639,83.591837 16.37007,7.314285 -3.48299,-5.572789 -1.3932,64.087077 -9.75238,-5.22449 16.02177,12.53877"
+          id="pathYen12" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 167.98095,79.760544 c 0,0 26.12245,-11.842177 32.74014,-8.707483 6.61769,3.134694 10.10068,14.628572 10.10068,14.628572 l -5.92109,-6.617687 -0.6966,91.254424 3.83129,-5.22449 -19.85306,-12.53878"
+          id="pathYen13" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 155.09388,113.19728 c 12.53877,0.3483 35.17823,-12.53878 35.17823,-12.53878 -9.40408,1.7415 -10.44898,0.3483 -10.44898,0.3483 l -5.92109,18.80817"
+          id="pathYen14" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 167.28435,133.39864 c 23.68436,-11.49388 22.63946,-12.53878 22.63946,-12.53878 l -19.85306,14.28028"
+          id="pathYen15" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 128.62313,165.44218 6.96599,4.17959 c 0,0 56.42449,-27.86395 59.55918,-26.12245 3.13469,1.7415 -11.14558,-1.7415 -11.14558,-1.7415 1.0449,7.31429 -4.87619,19.85306 -20.54966,37.61633 -6.96599,7.31429 -26.47075,32.04354 -42.84082,31.34694"
+          id="pathYen16" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 183.30612,171.01497 47.71701,46.32381"
+          id="pathYen17" />
+      </svg>
+
+      <!--uni58EB_shih.svg-->
+      <svg id="svgline"
+          xmlns= "http://www.w3.org/2000/svg" xlink= "http://www.w3.org/1999/xlink" 
+          version= "1.1"
+          width= "399" height= "384"
+          viewBox= "-10 0 266 256">
+        <!--<defs>-->
+          <clipPath id="cp2">
+            <path
+              fill="currentColor"
+              d="M115 45q11 5 19 9q3 3 2 12q-2 15 -3 30v10q31 -6 52 -9q0 -6 5 -6q4 -1 8 0q8 5 19 9q5 3 8 5q2 2 0 5q-1 4 -5 4q-11 -1 -23 -8q-5 -2 -10 -2h-13q-14 2 -41 7q-1 5 -1 10q-2 20 -3 28t1 12q11 -1 24 -1q0 -4 5 -5q7 -3 10 0q5 6 15 9q6 3 12 8q1 1 0 5q-2 4 -4 3h-3 q-4 -1 -10 -4q-10 -8 -28 -8q-36 1 -60 16q-6 3 -9 0q-1 -1 0 -2q2 -4 2 -8l2 -1q1 -1 5 -4q2 -1 4 0h4q9 -1 19 -6q5 -12 5 -50q-7 2 -23 6q-34 8 -58 14q-13 6 -24 -5q-1 -2 1 -1q7 6 34 -2q44 -11 70 -17q0 -9 -2 -33q-1 -23 -7 -28q-3 -2 1 -2z"
+              style="fill:none;stroke:#FF0000;stroke-opacity:1" />
+          </clipPath>
+        <!--</defs>-->
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 15.121051,123.63498 c 0,0 9.571202,9.35262 18.225076,9.35882 C 42,133 123.97894,107.87275 145.652,105.90247 c 21.67306,-1.97028 56.15294,-6.895976 56.15294,-6.895976 L 184.565,90.140241 230.37398,114.27615"
+          id="pathShih01" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 107.91478,40.046413 25.12105,23.643342 c 0,0 -5.91083,-12.80681 -5.91083,-5.910836 0,6.895975 2.95541,41.868418 1.97027,53.690091 -0.98514,11.82167 -4.43312,55.66037 -4.43312,55.66037 l -1.47771,10.83653"
+          id="pathShih02" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 95,169 -13,13 0.110519,5.66903 c 0,0 6.921659,-14.69197 39.405571,-21.1805 C 154,160 173.72847,163.04054 173.72847,163.04054 c 0,0 -13.79195,-10.83653 -20.68793,-12.31424 -6.89597,-1.4777 49.25697,27.5839 46.79412,31.52446"
+          id="pathShih03" />
+      </svg>
+
+    <!--uni7DB8_lun.svg-->
+      <svg class="csvAnimation" id="svgline"
+          xmlns= "http://www.w3.org/2000/svg" xlink= "http://www.w3.org/1999/xlink" 
+          version= "1.1"
+          width= "399" height= "384"
+          viewBox= "-10 0 266 256">
+        <defs>
+          <clipPath id="cp3">
+            <path
+              fill="currentColor"
+              d="m 72.003928,18.61138 q 5.000056,9.037814 2.000022,11.046216 -21.000239,35.147053 -31.000353,67.281501 -1.000012,3.012605 0,4.016803 0,1.00421 3.000034,-1.004198 2.000023,-2.008403 21.00024,-12.050417 5.000057,-6.02521 8.00009,-10.042017 13.000145,-16.067224 14.000157,-20.084028 0,-3.012605 8.000092,1.004201 3.00003,1.0042 3.00003,2.008402 0,1.004201 -3.00003,3.012604 -29.000328,23.096636 -43.000487,63.264693 -1.000012,3.01261 0,3.01261 1.000011,1.0042 3.000033,-1.0042 7.00008,-5.02101 15.000172,-13.05462 4.000045,-2.00841 2.000022,1.0042 -13.000148,15.06302 -20.000227,22.09243 -5.000057,4.01681 -6.000069,-1.0042 -3.000034,-6.02521 15.000171,-40.168061 -1.000012,1.004202 -2.000023,1.004202 -12.000136,7.029409 -19.000217,14.058819 -5.000056,1.0042 -6.000067,-4.0168 8.00009,-32.134453 28.000318,-72.302513 5.000058,-9.037813 6.000069,-17.071425 0,-5.021008 2.000023,-1.004202 z M 37.003529,178.27942 q 0,-1.0042 1.000012,0 h 1.000011 q -1.000011,3.0126 1.000012,6.02521 1.00001,3.0126 2.000021,8.03361 0,1.0042 1.000012,2.0084 -1.000012,4.01681 -2.000023,2.00841 -11.000125,-9.03782 -4.000045,-18.07563 z M 60.00379,167.2332 q -2.000022,-2.0084 1.000012,-1.0042 4.000046,4.01681 9.000103,8.03361 1.000012,4.01681 -1.000011,4.01681 -2.000023,2.0084 -4.000046,-2.0084 -4.000046,-4.01681 -5.000058,-9.03782 z m 38.000431,-1.0042 q -6.000069,1.0042 -8.000092,-4.0168 -6.000064,-6.02521 -14.000156,-15.06303 -4.000045,-3.0126 1.000011,-1.0042 10.000111,5.02101 23.000256,16.06723 1.00002,2.0084 0,4.0168 -1.000007,1.0042 -2.000019,0 z M 147.00478,10.577768 q 4.00005,-6.0252088 12.00014,-3.0126043 1.00001,1.0042015 -1.00001,1.0042015 -6.00007,2.0084028 -17.0002,20.0840308 7.00009,-5.021008 11.00013,-5.021008 7.00008,0 15.00017,11.046216 1.00001,3.012605 5.00006,9.037815 4.00005,8.033611 7.00008,12.050417 11.00013,22.092432 20.00023,32.134449 7.00008,18.075625 32.00035,16.067225 14.00017,1.0042 22.00026,5.02101 1.00001,2.0084 -1.00001,2.0084 H 228.0057 q -18.00019,5.02101 -30.00033,-18.075629 -10.00012,-13.054619 -17.0002,-24.100835 -2.00002,-3.012605 -3.00003,-6.02521 -2.00002,-2.008403 -5.00006,-6.025208 -9.0001,-14.058821 -13.00015,-22.092434 -7.00008,-11.046216 -14.00016,-6.025208 -1.00001,1.0042 -3.00003,1.0042 -2.00003,1.004201 -4.00005,1.004201 -11.00012,16.067225 -22.00025,35.147054 -17.0002,28.117642 -27.000311,42.176459 -2.000023,2.00841 -1.000011,-1.0042 31.000352,-58.243685 58.000662,-96.403342 z m 14.00016,66.277299 h 4.00005 q 1.00001,1.004201 2.00002,1.004201 1.00001,1.004202 3.00004,1.004202 5.00006,0 6.00007,1.004202 1.00001,0 1.00001,2.008403 l -1.00001,1.004202 q -1.00001,2.008403 -2.00003,1.004201 -13.00015,2.008404 -20.00023,6.025208 -6.00006,3.012605 -4.00004,0 1.00001,-1.0042 0,-1.0042 h -3.00004 q -7.00008,2.008402 -14.00016,3.012603 -9.0001,3.012605 -14.00016,4.016807 -5.00006,1.004201 -9.0001,0 -2.00002,0 1.00001,-2.008403 26.0003,-6.025208 46.00053,-14.058821 0,-1.004202 2.00002,-2.008404 1.00001,0 2.00002,-1.004201 z M 148.0048,109.99372 q 1.00001,2.0084 3.00003,2.0084 l 3.00003,2.0084 q 41.00047,-8.03361 48.00056,8.03361 4.00004,4.01681 9.00009,11.04622 2.00002,3.01261 1.00001,6.02521 -3.00002,5.02101 -6.00006,13.05462 -11.00013,31.13025 -36.00041,44.18487 -3.00004,2.0084 -5.00006,0 -2.00002,-2.00841 -6.00007,-4.01681 -2.00002,-1.0042 -4.00004,-3.0126 -2.00003,-1.00421 -3.00004,-3.01261 -1.00001,4.01681 -1.00001,10.04202 -2.00002,16.06722 2.00002,19.07982 v 1.00421 q 1.00001,1.0042 1.00001,3.0126 -2.00002,1.00421 -3.00003,-1.0042 -3.00003,-2.0084 -6.00007,-7.02941 l -1.00001,-2.0084 q -2.00002,-3.01261 0,-4.01681 0,-1.0042 1.00001,-1.0042 3.00004,-1.0042 3.00004,-5.02101 -1.00002,-2.0084 0,-8.03361 1.00001,-5.02101 1.00001,-7.02941 -2.00003,-1.0042 -4.00005,-3.01261 -2.00002,-2.0084 4.00005,-1.0042 v -9.03781 -26.10924 q -4.00005,1.0042 -10.00012,3.0126 -4.00004,1.00421 -5.00006,1.00421 -1.00001,17.07142 1.00002,27.11344 1.00001,5.021 -1.00002,4.0168 -2.00002,2.0084 -4.00004,-2.0084 l -1.00001,-2.0084 q -2.00003,-6.02521 -2.00003,-11.04622 -1.00001,-1.0042 1.00002,-4.01681 v -9.03781 q -2.00003,1.0042 -4.00005,1.0042 -3.00003,1.0042 -4.00005,1.0042 -2.00002,1.0042 -6.00007,2.00841 h -4.00004 q 2.00002,12.05041 9.0001,18.07562 2.00003,5.02101 1.00001,6.02521 -2.00002,3.01261 -3.00003,2.0084 -10.00012,-7.0294 -14.00016,-15.06302 -2.00002,-1.0042 0,-5.021 l 1.00001,-1.00421 -1.00001,-3.0126 q -1.00001,-4.01681 0,-6.02521 -3.00004,-13.05462 0,-21.08823 1.00001,-2.0084 2.00002,0 h 1.00001 q 20.00023,-9.03782 43.0005,-16.06723 -1.00001,0 -1.00001,-1.0042 -1.00002,-2.0084 -1.00002,-3.0126 h -1.00001 q 0,-1.0042 2.00003,-1.0042 z m -20.00023,38.15965 q 0,-6.0252 -1.00002,-9.03781 -1.00001,-1.0042 1.00002,-1.0042 7.00008,4.01681 6.00006,8.03361 6.00007,-1.0042 16.00019,-5.02101 0,-14.05882 -1.00001,-22.09243 l -15.00018,6.02521 q -8.00009,2.0084 -11.00012,3.0126 -5.00006,3.01261 -13.00015,5.02101 h -4.00005 q -4.00004,5.02101 3.00004,22.09243 6.00007,-3.0126 19.00022,-7.02941 z m 24.00027,34.14285 q 17.0002,13.05462 28.00032,3.01261 18.00021,-17.07143 21.00024,-50.21008 -1.00001,-18.07562 -14.00016,-20.08403 -12.00013,-1.0042 -31.00035,3.01261 1.00001,3.0126 0,3.0126 -2.00003,2.00841 -2.00003,4.01681 v 15.06302 q 1.00002,0 3.00004,-1.0042 2.00002,0 4.00004,-1.0042 -1.00001,-2.0084 3.00004,-3.01261 h 2.00002 q 3.00004,2.00841 12.00014,1.00421 2.00002,0 2.00002,2.0084 0,1.0042 -1.00001,1.0042 -1.00001,1.0042 0,1.0042 -2.00002,0 -7.00008,1.0042 -3.00003,1.00421 -5.00006,1.00421 -4.00004,0 -10.00011,2.0084 h -3.00004 q -1.00001,3.0126 -1.00001,9.03781 -2.00002,23.09664 -1.00001,29.12184 z m -76.000867,-67.2815 q -2.000023,-3.0126 2.000023,-2.0084 7.000076,3.01261 11.000122,4.01681 3.000034,2.0084 0,4.0168 -9.000099,0 -11.000122,4.01681 l -8.000091,8.03361 q -4.000046,1.0042 -1.000011,-1.0042 8.00009,-13.05462 7.000079,-17.07143 z"
+              id="pathLunClip"
+              style="fill:none;stroke:#ff0000;stroke-opacity:1" 
+              />
+          </clipPath>
+        </defs>
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 69.19596,11.667262 3.18198,16.970563 -0.353553,-4.949748 c -3.535534,9.899495 -38.183767,81.317283 -36.416,91.570333 2.828428,-4.24265 11.667262,-13.08148 11.313709,-12.72793 6.363961,-4.242637 22.98097,-12.374365 22.98097,-12.374365"
+          id="pathLun01" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 95.35891,55.861436 c 0,0 -28.637824,35.708892 -30.759145,39.951533 -1.06066,4.949751 -17.324116,36.416001 -15.202795,43.487071 5.656854,-5.3033 25.809397,-24.74874 25.809397,-24.74874"
+          id="pathLun02" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="M 74.145707,111.72287 91.82338,123.39013 82.277435,114.5513 67.074639,136.11806"
+          id="pathLun03" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 38.436815,175.36248 c -2.828428,7.07107 1.06066,19.79899 4.596194,23.33453"
+          id="pathLun04" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 57.175144,163.34167 14.495689,16.61701"
+          id="pathLun05" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 72.37794,143.18912 28.28427,24.04163"
+          id="pathLun06" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 160.76629,7.4246212 c 0,0 -8.13173,0.7071068 -10.6066,2.8284268 -2.47488,2.121321 -16.26346,21.213204 -62.932508,100.762712"
+          id="pathLun07" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 138.49242,29.344931 c 0,0 10.25305,-5.656854 17.32412,-3.18198 7.07107,2.474874 34.29468,62.57895 56.21499,79.195959 6.01041,2.47487 32.17336,0.70711 43.84062,4.94975"
+          id="pathLun08" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 107.02617,95.105862 c 0,0 64.34672,-15.556349 69.65002,-13.435029 -13.08148,-0.707107 -15.2028,-2.12132 -15.2028,-2.12132 l -13.43502,13.788582"
+          id="pathLun09" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 104.19775,127.63277 c -4.5962,23.68808 10.96015,54.09367 15.55634,57.62921"
+          id="pathLun10" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 100.30866,131.52186 c 10.6066,1.41421 52.67945,-20.5061 78.48885,-18.73833 11.31371,1.41422 19.79899,-0.70711 28.28427,22.98097 -1.76777,13.78858 -20.85965,57.98276 -38.53732,57.98276 -11.31371,-5.65686 -25.8094,-15.2028 -25.8094,-15.2028"
+          id="pathLun11" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 103.84419,157.33126 68.94291,-19.44544 -10.6066,-1.76776 22.62742,5.3033"
+          id="pathLun12" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 127.53227,136.11806 c 0,0 3.53553,6.36396 3.88909,9.19238 0.35355,2.82843 0.7071,37.47666 0.7071,37.47666"
+          id="pathLun13" />
+        <path
+          style="fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          d="m 146.2706,108.54089 7.42462,11.31371 -2.47487,-7.07107 c 0,0 -0.35356,92.27744 -2.47488,96.87363 -3.53553,-2.12132 -6.71751,-6.01041 -6.71751,-6.01041 l 13.43503,19.44544"
+          id="pathLun14" />
+      </svg>
+    </div>
+
     <script type="text/javascript">
       // Your beautiful D3 code will go here
+      var pathYen01 = document.querySelector('#pathYen01');
+      var pathYen02 = document.querySelector('#pathYen02');
+      var pathYen03 = document.querySelector('#pathYen03');
+      var pathYen04 = document.querySelector('#pathYen04');
+      var pathYen05 = document.querySelector('#pathYen05');
+      var pathYen06 = document.querySelector('#pathYen06');
+      var pathYen07 = document.querySelector('#pathYen07');
+      var pathYen08 = document.querySelector('#pathYen08');
+      var pathYen09 = document.querySelector('#pathYen09');
+      var pathYen10 = document.querySelector('#pathYen10');
+      var pathYen11 = document.querySelector('#pathYen11');
+      var pathYen12 = document.querySelector('#pathYen12');
+      var pathYen13 = document.querySelector('#pathYen13');
+      var pathYen14 = document.querySelector('#pathYen14');
+      var pathYen15 = document.querySelector('#pathYen15');
+      var pathYen16 = document.querySelector('#pathYen16');
+      var pathYen17 = document.querySelector('#pathYen17');
+      var pathShih01 = document.querySelector('#pathShih01');
+      var pathShih02 = document.querySelector('#pathShih02');
+      var pathShih03 = document.querySelector('#pathShih03');
+      var pathLun01 = document.querySelector('#pathLun01');
+      var pathLun02 = document.querySelector('#pathLun02');
+      var pathLun03 = document.querySelector('#pathLun03');
+      var pathLun04 = document.querySelector('#pathLun04');
+      var pathLun05 = document.querySelector('#pathLun05');
+      var pathLun06 = document.querySelector('#pathLun06');
+      var pathLun07 = document.querySelector('#pathLun07');
+      var pathLun08 = document.querySelector('#pathLun08');
+      var pathLun09 = document.querySelector('#pathLun09');
+      var pathLun10 = document.querySelector('#pathLun10');
+      var pathLun11 = document.querySelector('#pathLun11');
+      var pathLun12 = document.querySelector('#pathLun12');
+      var pathLun13 = document.querySelector('#pathLun13');
+      var pathLun14 = document.querySelector('#pathLun14');
+
+      var lengthYen01 = parseInt( pathYen01.getTotalLength() );
     </script>
-  </body>
-</html>
+  </html>
   
