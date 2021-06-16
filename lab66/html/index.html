@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        @import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
+
+        html,
+        body {
+            height: 200%;
+            font-family: 'cwTeXKai', serif;
+        }
+
+        #training-section,
+        #testing-section,
+        #Data-Analysis-section {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #train-vs-test {
+            height: 100%;
+            position: fixed;
+            max-width: 100%;
+        }
+
+
+        #right {
+            width: 60%;
+            height: 100%;
+            position: relative;
+            float: right;
+            
+        }
+
+        #left {
+            width: 40%;
+            height: 100%;
+            float: left;
+            
+        }
+        
+        .card{
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="right">
+        <div id="train-vs-test"></div>
+    </div>
+
+    <div id="left">
+        <div id="training-section">
+            <div class="container">
+                <h1>
+                    Network Intrusion Detection System using Machine Learning(NIDS)
+                </h1>
+                <p>
+                    用來監控與分析網路上的所有封包是否有異常的攻擊行為，當NIDS發現封包中有惡意的行為或攻擊跡象(檢測到常見攻擊，如後門類、FTP類、HTTP類、DNS類、Mail類、ICMP類、RPC類和DoS類等)，NIDS也會主動立即通知系統管理者。
+                    簡單的說NIDS就是網路監控工具。
+                </p>
+
+
+                <h1>
+                    NIDS的應用
+                </h1>
+                <figure class="figure">
+                    <img src="./media/5G_NETWORK.png" class="figure-img img-fluid rounded"
+                        alt="A generic square placeholder image with rounded corners in a figure.">
+                    <figcaption class="figure-caption">from A Machine Learning Based Intrusion
+                        Detection System for Software Defined 5G
+                        Network paper
+                    </figcaption>
+                </figure>
+
+
+                <div class="dataset-section">
+                    <h1>
+                        資料集的部分
+                    </h1>
+                    <h3>
+                        1.TCP連接基本特徵
+                    </h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">feature</th>
+                                <th scope="col">description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>protocol_type</td>
+                                <td>協議類型</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>service</td>
+                                <td>目標主機服務類型</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>flag</td>
+                                <td>連接正常或錯誤的狀態</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>src_bytes</td>
+                                <td>目的來源到目的主機數據Bytes</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>dst_bytes</td>
+                                <td>目的主機到來源主機數據Bytes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>
+                    2.TCP連接的內容特徵。
+                </h3>
+                <p>
+                    對於U2R和R2L之類的攻擊，源於它們是在數據記錄中使用了自定義序列模式，
+                    而一般都在嵌入數據包的數據pay load裡面，一般的數據包和正常連接沒有什麼區別。
+                    為了檢測此類攻擊，所擷取出可能表現出行為的內容特徵，如登錄失敗的次數等。
+                </p>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">feature</th>
+                            <th scope="col">description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>num_failed_logins</td>
+                            <td>登錄嘗試失敗的次數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>su_attempted</td>
+                            <td>若出現”su root”命令則為1 否則為0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>num_root</td>
+                            <td>root用戶訪問次數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>num_access_files</td>
+                            <td>訪問控製文件的次數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>is_guest_login</td>
+                            <td>若是guest登錄則為1，否則為0</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>
+                    3.基於時間的網絡流量統計特徵(時間皆以過去兩秒內為單位)
+                </h3>
+                <p>
+                    由於網絡攻擊事件在時間上有一定的關聯性，因此出當前連接記錄與之前的狀態統計內的連接記錄之間的部分聯繫，
+                    可以更好的表現連接之間的關係
+                </p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">feature</th>
+                            <th scope="col">description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>count</td>
+                            <td>與當前連接具有相同的目標主機的連接數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>srv_count</td>
+                            <td>與當前連接具有相同服務的連接數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>serror_rate</td>
+                            <td>相同目標主機的連接中，出現SYN錯誤的連接的百分比</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>rerror_rate</td>
+                            <td>相同目標主機的連接中，出現REJ錯誤的連接的百分比</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>same_srv_rate</td>
+                            <td>與當前連接具有相同服務的連接的百分比</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>same_srv_rate</td>
+                            <td>與當前連接具有不同服務的連接的百分比</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>same_srv_rate</td>
+                            <td>當前連接具有相同服務的連接中，與當前連接具有不同目標主機的</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <h3>
+                    4.基於主機的網絡流量統計特徵(時間皆以過去兩秒內為單位)
+                </h3>
+                <p>
+                    而在實際的插入中，有的嘗試使用緩慢的攻擊模式來掃描主機或端口，當它們掃描的頻率大於2秒的時候，
+                    基於時間的方法就無法從數據中找到關聯。所以李文科等按照目標主機進行分類，
+                    使用一個具有100個連接的時間窗口，統計當前連接之前的100個連接記錄中與當前連接具有相同目標主機的統計信息。
+                </p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">feature</th>
+                            <th scope="col">description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>count</td>
+                            <td>dst_host_count</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>srv_count</td>
+                            <td>與當前連接具有相同目標主機的連接數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>serror_rate</td>
+                            <td>與當前連接具有相同目標主機相同服務的連接數</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>rerror_rate</td>
+                            <td>與當前連接具有相同目標主機的連接中，出現SYN錯誤的連接所佔的百分比</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>dst_host_srv_rerror_rate</td>
+                            <td>與當前連接具有相同目標主機的連接中，出現REJ錯誤的連接所佔的百分比</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="testing-section">
+            <div id="Data-Analysis-section">
+                <h1>
+                    資料處理與分析
+                </h1>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    連續性資料的分佈
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <img src="./media/FeatureDis.svg" class="img-fluid" alt="Responsive image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="true" aria-controls="collapseTwo">
+                                    繪製屬於類別的特徵如何與Target關聯
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <img src="./media/ErrorBar.svg" class="img-fluid" alt="Responsive image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree"
+                                    aria-expanded="true" aria-controls="collapseThree">
+                                    關聯矩陣分析
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <img src="./media/CorrelationMatrix.svg" class="img-fluid" alt="Responsive image"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="Experiment-Analysis-section">
+                    <h1>
+                        實驗結果分析
+                    </h1>
+                    <div id="accordion2">
+                        <div class="card ">
+                            <div class="card-header" id="heading4">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse4"
+                                        aria-expanded="true" aria-controls="collapse4">
+                                        模型分數、Confusion Matrix、Test Data表現
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapse4" class="collapse" aria-labelledby="heading4"
+                                data-parent="#accordion2">
+                                <div class="card-body">
+                                    <img src="./media/ScoreResult.png" class="img-fluid" alt="Responsive image"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="heading5">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse5"
+                                        aria-expanded="true" aria-controls="collapse5">
+                                        模擬樹狀圖
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapse5" class="collapse" aria-labelledby="heading5"
+                                data-parent="#accordion2">
+                                <div class="card-body">
+                                    <img src="./media/DT.svg" class="img-fluid" alt="Responsive image"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <h1>
+                    References
+                </h1>
+                <div id="references-section">
+
+                    <div class="list-group">
+                        <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/ett.4150"
+                            class="list-group-item list-group-item-action" aria-current="true">
+                            Network intrusion detection system: A systematic study of machine learning and deep
+                            learning
+                            approaches
+                        </a>
+                        <a href="https://link.springer.com/article/10.1007/s12083-017-0630-0"
+                            class="list-group-item list-group-item-action">Survey on SDN based network intrusion
+                            detection
+                            system using machine learning approaches</a>
+                        <a href="https://developer.aliyun.com/article/547044"
+                            class="list-group-item list-group-item-action">KDD
+                            CUP 99資料集之特徵描述</a>
+                        <a href="https://www.kaggle.com/sampadab17/network-intrusion-detection"
+                            class="list-group-item list-group-item-action">Network Intrusion Detection Dataset</a>
+                        <a href="https://www.kaggle.com/faressayah/decision-trees-and-random-forest-for-beginners"
+                            class="list-group-item list-group-item-action disabled" tabindex="-1"
+                            aria-disabled="true">Decision
+                            Trees and Random Forest for Beginners</a>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <h1>
+                                Conclusion
+                            </h1>
+                            <h3>特徵選擇方法</h3>
+                            <p>這些方法可以精確地確定特徵與入侵檢測任務的相關性以及這些特徵之間的冗餘。
+                                因此，如何確定模型參數的最佳數量以及如何提高計算真實性是 ML/DL中的一個挑戰。</p>
+
+                            <h3>準確性問題</h3>
+                            <p>
+                                現有的入侵檢測數據集對於學術研究的研究預測並不准確，因為它們需要對數據進行適當的分類。
+                                由於缺乏更好、更真實的數據集，網絡研究人員使用合成數據集進行網絡入侵檢測。
+                                創建數據集以確保對入侵檢測系統的一致和準確評估至關重要。對於入侵檢測的測試和評估，
+                                有幾個數據集可用。然而，最廣泛使用的評估數據集是 KDD Cup 1999 及其修改版本
+                            </p>
+
+                            <h3>使用Deep Learning演算法</h3>
+                            <p>
+                                深度學習的使用因其在評估網絡安全方面的效率而變得越來越重要。
+                                同樣，深度學習的新方法在數據徵稅方面的發展速度更快、效率更高。
+                                在實施 NIDS 時需要考慮各種問題，因為攻擊的性質是動態的。
+                                因此，需要檢測方法的適應性。開發具有分類器的特徵選擇方法以減少數據集的維度是一個持續的挑戰。
+                                這是使用 DL 技術對適當的數據集進行分類的另一個研究領域。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+        <script src="./lib/d3.v3.min.js"></script>
+        <script src="./lib/binarydecisiontree.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+        <script>
+            $(function () {
+
+            })
+            var Lipsum = "";
+
+            window.onload = function () {
+                function resizeRight() {
+                    d3.select("#train-vs-test")
+                        .style("width", d3.select("#right").node().clientWidth + "px")
+                        ;
+                }
+
+                resizeRight();
+
+                d3.select(window)
+                    .on("resize", function () { resizeRight() })
+                ;
+
+
+                /**
+                 * 填版面，不然全部都是白色的很單調
+                 * 這兩個 section 是要讓同學放說明資料和圖片的地方
+                */
+                // d3.select("#training-section")
+                //     .selectAll("p")
+                //     .data(d3.range(1, 10))
+                //     .enter()
+                //     .append("p")
+                //     .text(Lipsum)
+                //     ;
+
+                // d3.select("#testing-section")
+                //     .selectAll("p")
+                //     .data(d3.range(1, 10))
+                //     .enter()
+                //     .append("p")
+                //     .text(Lipsum)
+                //     ;
+
+                // d3.select("#training-section")
+                //     .selectAll("img")
+                //     .data(d3.range(1, 4))
+                //     .enter()
+                //     .append("img")
+                //     .attr("src", function (d) { return "media/" + d + ".png" })
+                //     .style('height', '350px')
+                //     .style('width', '350px')
+                //     ;
+
+                // d3.select("#testing-section")
+                //     .selectAll("img")
+                //     .data(d3.range(4, 7))
+                //     .enter()
+                //     .append("img")
+                //     .attr("src", function (d) { return "media/" + d + ".png" })
+                //     .style('height', '350px')
+                //     .style('width', '350px')
+                //     ;
+
+
+
+                var bdt = new BinaryDecisionTree({
+                    el: "#train-vs-test",
+                    trainingSection: "#training-section",
+                    testSection: "#testing-section",
+
+                    /**
+                     * 預設會讓小球在上方排排站
+                     * 如果不要排排站的話，必須要把這個 paramater 設成 false
+                     * 如果要排排站的話，直接註解掉這行就行
+                    */
+                    //flood: false
+                });
+
+                bdt.setDataFromJson("./dataset.json", function () {
+                    bdt.install();
+                    bdt.play();
+                })
+
+                /**
+                 * or
+                 * bdt.setDataFromObject({ 
+                 *  tree_data: tree_data,
+                 *  tree_training_set: tree_training_set,
+                 *  tree_stats: tree_stats, 
+                 *  tree_test_set: tree_test_set, 
+                 *  test_stats : test_stats
+                 * })
+                 * 同步函式，不需要 callback
+                 * bdt.install();
+                 * bdt.play();
+                */
+            }
+        </script>
+
+
+</body>
+
+
+
+</html>
