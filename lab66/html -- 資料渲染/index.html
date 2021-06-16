@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <style>
+        html,
+        body {
+            height: 180%;
+        }
+        #training-section, #testing-section {
+            height: 100%;
+			overflow: hidden;
+        }
+
+        #train-vs-test {
+            height: 100%;
+            position: fixed;
+            max-width: 100%;
+        }
+
+        .padding {
+            height: 100%;
+        }
+
+        /*左右視窗比例*/
+        #right {
+            width: 60%;
+            height: 100%;
+            position: relative;
+            float: right;
+        }
+        #left {
+            width: 40%;
+            height: 100%;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+
+
+        <div id="right">
+            <div id="train-vs-test"></div>
+        </div>
+
+        <div id="left">
+            <div id="training-section">
+				<h1>
+					訓練資料集的部分
+				</h1>
+            </div>
+            <div id="testing-section">
+				<h1>
+					測試資料集的部分
+				</h1>
+            </div>
+        </div>
+        
+        
+        
+        
+        <script src="./lib/d3.v3.min.js"></script>
+        <script src="./lib/binarydecisiontree.min.js"></script>
+
+        <script>
+            var Lipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+            var test[] = {"測試1", "測試2"};
+
+            var train_String01 = "1. TCP連接基本特徵（共9種） 基本連接特徵包含了一些連接的基本屬性，如連續時間，協議類型，傳送的字節數等。";
+			var train_String02 = "protocol_type  協議類型，離散類型，共有3種：TCP, UDP, ICMP。";
+			var train_String03 = "service  目標主機的網絡服務類型，離散類型，共有70種";
+			var train_String04 = "flag 連接正常或錯誤的狀態，離散類型，共11種。'OTH', 'REJ', 'RSTO', 'RSTOS0′, 'RSTR', 'S0′, 'S1′, 'S2′, 'S3′, 'SF', 'SH'。它表示該連接是否按照協議要求開始或完成";
+			var train_String05 = "src_bytes 從源主機到目標主機的數據的bytes";
+			var train_String06 = "dst_bytes. 從目標主機到源主機的數據的bytes";
+
+			var train_String07 = "2.TCP連接的內容特徵（共13種）";
+			var train_String08 = "num_failed_logins. 登錄嘗試失敗的次數";
+			var train_String09 = "su_attempted 若出現”su root”命令則為1 否則為0";
+			var train_String10 = "num_root root用戶訪問次數";
+			var train_String11 = "num_access_files. 訪問控製文件的次數";
+			var train_String12 = "is_guest_login. 若是guest登錄則為1，否則為0";
+
+			var train_String13 = "3.基於時間的網絡流量統計特徵";
+			var train_String14 = "count: 過去兩秒內，與當前連接具有相同的目標主機的連接數";
+			var train_String15 = "srv_count 過去兩秒內，與當前連接具有相同服務的連接數";
+			var train_String16 = "serror_rate. 過去兩秒內，在與當前連接具有相同目標主機的連接中，出現“SYN”錯誤的連接的百分比";
+			var train_String17 = "rerror_rate. 過去兩秒內，在與當前連接具有相同目標主機的連接中，出現“REJ”錯誤的連接的百分比";
+			var train_String18 = "same_srv_rate. 前100個連接中 與當前連接具有相同目標主機的連接中，與當前連接具有相同服務的連接的百分比";
+			var train_String19 = "diff_srv_rate 過去兩秒內，在與當前連接具有相同目標主機的連接中，與當前連接具有不同服務的連接的百分比";
+			var train_String20 = "srv_diff_host_rate. 過去兩秒內，在與當前連接具有相同服務的連接中，與當前連接具有不同目標主機的";
+
+			var train_String21 = "4. 基於主機的網絡流量統計特徵（共10種，32～41）";
+			var train_String22 = "dst_host_count. 前100個連接中，與當前連接具有相同目標主機的連接數";
+			var train_String23 = "dst_host_srv_count. 前100個連接中，與當前連接具有相同目標主機相同服務的連接數";
+			var train_String24 = "dst_host_serror_rate. 前100個連接中，與當前連接具有相同目標主機的連接中，出現SYN錯誤的連接所佔的百分比";
+			var train_String25 = "dst_host_srv_rerror_rate 前100個連接中，與當前連接具有相同目標主機的連接中，出現REJ錯誤的連接所佔的百分比";
+
+			var train_String26 = "class";
+			var train_String27 = "0 normal";
+			var train_String28 = "1 anomaly";
+
+            window.onload = function () {
+                function resizeRight(){
+                    d3.select("#train-vs-test")
+                        .style("width", d3.select("#right").node().clientWidth + "px")
+                    ;
+                }
+
+                resizeRight();
+
+                d3.select(window)
+                    .on("resize", function(){ resizeRight() })
+                ;
+
+
+                /**
+                 * 填版面，不然全部都是白色的很單調
+                 * 這兩個 section 是要讓同學放說明資料和圖片的地方
+                */
+                d3.select("#training-section")
+                    .selectAll("p")
+                    .data(d3.range(0, 1))	//輸出一次
+                    .enter()
+                    .append("p")
+                    .text(function(){
+                    	
+                    })
+                ;
+
+                d3.select("#testing-section")
+                    .selectAll("p")
+                    .data(d3.range(1, 10))
+                    .enter()
+                    .append("p")
+                    .text(Lipsum)
+                ;
+				
+				d3.select("#training-section")
+                    .selectAll("img")
+					.data(d3.range(1, 4))
+					.enter()
+					.append("img")
+					.attr("src", function(d){ return "media/" + d + ".png"})
+                    .style('height', '350px')
+                    .style('width', '350px')
+                ;
+
+                d3.select("#testing-section")
+                    .selectAll("img")
+					.data(d3.range(4, 7))
+					.enter()
+					.append("img")
+					.attr("src", function(d){ return "media/" + d + ".png"})
+                    .style('height', '350px')
+                    .style('width', '350px')
+                ;
+				
+				
+
+                var bdt = new BinaryDecisionTree({
+                    el: "#train-vs-test",
+                    trainingSection: "#training-section",
+                    testSection: "#testing-section",
+                    
+					/**
+                     * 預設會讓小球在上方排排站
+                     * 如果不要排排站的話，必須要把這個 paramater 設成 false
+                     * 如果要排排站的話，直接註解掉這行就行
+                    */
+                    //flood: false
+                });
+
+                bdt.setDataFromJson("./dataset.json", function(){
+                    bdt.install();
+                    bdt.play();
+                })
+
+                /**
+                 * or
+                 * bdt.setDataFromObject({ 
+                 *  tree_data: tree_data,
+                 *  tree_training_set: tree_training_set,
+                 *  tree_stats: tree_stats, 
+                 *  tree_test_set: tree_test_set, 
+                 *  test_stats : test_stats
+                 * })
+                 * 同步函式，不需要 callback
+                 * bdt.install();
+                 * bdt.play();
+                */
+            }
+        </script>
+
+</body>
+
+
+
+</html>
