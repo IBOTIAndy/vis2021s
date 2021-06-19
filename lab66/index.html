@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="utf-8">
+    <title>Lab:66(期末計畫) - Network Intrusion Detection System using Machine Learning(NIDS)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -14,7 +15,7 @@
         body {
             height: 200%;
             font-family: 'cwTeXKai', serif;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url(media/background.jpg);
+            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url(./html/media/background.jpg);
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
@@ -85,7 +86,7 @@
                     NIDS的應用
                 </h1>
                 <figure class="figure">
-                    <img src="./media/5G_NETWORK.png" class="figure-img img-fluid rounded"
+                    <img src="./html/media/5G_NETWORK.png" class="figure-img img-fluid rounded"
                         alt="A generic square placeholder image with rounded corners in a figure.">
                     <figcaption class="figure-caption">from A Machine Learning Based Intrusion
                         Detection System for Software Defined 5G
@@ -286,7 +287,7 @@
                     </tbody>
                 </table>
                 <div align="center">
-                    <img src="media/img01.jpg">
+                    <img src="html/media/img01.jpg">
                 </div>
             </div>
         </div>
@@ -310,7 +311,7 @@
                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordion">
                             <div class="card-body">
-                                <img src="./media/FeatureDis.svg" class="img-fluid" alt="Responsive image">
+                                <img src="./html/media/FeatureDis.svg" class="img-fluid" alt="Responsive image">
                             </div>
                         </div>
                     </div>
@@ -328,7 +329,7 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordion">
                             <div class="card-body">
-                                <img src="./media/ErrorBar.svg" class="img-fluid" alt="Responsive image">
+                                <img src="./html/media/ErrorBar.svg" class="img-fluid" alt="Responsive image">
                             </div>
                         </div>
                     </div>
@@ -346,7 +347,7 @@
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
                             data-parent="#accordion">
                             <div class="card-body">
-                                <img src="./media/CorrelationMatrix.svg" class="img-fluid" alt="Responsive image"/>
+                                <img src="./html/media/CorrelationMatrix.svg" class="img-fluid" alt="Responsive image"/>
                             </div>
                         </div>
                     </div>
@@ -372,7 +373,7 @@
                             <div id="collapse4" class="collapse" aria-labelledby="heading4"
                                 data-parent="#accordion2">
                                 <div class="card-body">
-                                    <img src="./media/ScoreResult.png" class="img-fluid" alt="Responsive image"/>
+                                    <img src="./html/media/ScoreResult.png" class="img-fluid" alt="Responsive image"/>
                                 </div>
                             </div>
                         </div>
@@ -390,7 +391,7 @@
                             <div id="collapse5" class="collapse" aria-labelledby="heading5"
                                 data-parent="#accordion2">
                                 <div class="card-body">
-                                    <img src="./media/DT.svg" class="img-fluid" alt="Responsive image"/>
+                                    <img src="./html/media/DT.svg" class="img-fluid" alt="Responsive image"/>
                                 </div>
                             </div>
                         </div>
@@ -456,7 +457,7 @@
                 </div>
                 <div id="images" align="center">
                     <br>
-                    <img src="media/uwu.jpg">
+                    <img src="./html/media/uwu.jpg">
 
                 </div>
             </div>
@@ -466,8 +467,8 @@
 
 
 
-        <script src="./lib/d3.v3.min.js"></script>
-        <script src="./lib/binarydecisiontree.min.js"></script>
+        <script src="./html/lib/d3.v3.min.js"></script>
+        <script src="./html/lib/binarydecisiontree.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
@@ -519,7 +520,7 @@
                 //     .data(d3.range(1, 4))
                 //     .enter()
                 //     .append("img")
-                //     .attr("src", function (d) { return "media/" + d + ".png" })
+                //     .attr("src", function (d) { return "html/media/" + d + ".png" })
                 //     .style('height', '350px')
                 //     .style('width', '350px')
                 //     ;
@@ -529,7 +530,7 @@
                 //     .data(d3.range(1, 3))
                 //     .enter()
                 //     .append("img")
-                //     .attr("src", function () { return "media/uwu.jpg" })
+                //     .attr("src", function () { return "html/media/uwu.jpg" })
                 //     .style('height', '350px')
                 //     .style('width', '350px')
                 //     ;
@@ -549,7 +550,7 @@
                     //flood: false
                 });
 
-                bdt.setDataFromJson("./dataset.json", function () {
+                bdt.setDataFromJson("./html/dataset.json", function () {
                     bdt.install();
                     bdt.play();
                 })
