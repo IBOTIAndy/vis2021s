@@ -14,6 +14,12 @@
         body {
             height: 200%;
             font-family: 'cwTeXKai', serif;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(media/background.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #00000000;
         }
 
         #training-section,
@@ -22,27 +28,32 @@
             height: 100%;
             overflow: hidden;
         }
+        #training-section{            
+            background-color: rgba(180, 220, 255, 0.85);
+        }
+
+        #testing-section{
+            background-color: rgba(200, 220, 255, 0.8);
+        }
 
         #train-vs-test {
             height: 100%;
             position: fixed;
             max-width: 100%;
+            background-color: rgba(255, 255, 255, 0.85);
         }
 
-
         #right {
-            width: 60%;
+            width: 58%;
             height: 100%;
             position: relative;
-            float: right;
-            
+            float: right;            
         }
 
         #left {
-            width: 40%;
+            width: 38%;
             height: 100%;
-            float: left;
-            
+            float: left;            
         }
         
         .card{
@@ -276,7 +287,6 @@
                 </table>
             </div>
         </div>
-
 
         <div id="testing-section">
             <div id="Data-Analysis-section">
